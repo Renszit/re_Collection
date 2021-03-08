@@ -3,6 +3,8 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
+const db = require("./db");
+const { hash } = require("./bc");
 
 app.use(compression());
 app.use(
@@ -20,8 +22,26 @@ app.use(cookieSessionMiddleware);
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
+//app.get('/)
+//app.get('/welcome)
+
 app.post("/register", (req, res) => {
-    console.log(req.body);
+    const { first, last, email, password } = req.body;
+    hash(password)
+        .then((hashedpass) => {
+            db.addUser(first, last, email, hashedpass)
+                .then(() => {
+                    res.json({ succes: true });
+                })
+                .catch((err) => {
+                    console.log(
+                        "something went wrong in the register post route",
+                        err
+                    );
+                    res.json({ succes: false });
+                });
+        })
+        .catch((err) => console.log("error in hashing password", err));
 });
 
 app.get("*", function (req, res) {
