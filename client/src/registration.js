@@ -32,34 +32,35 @@ export default function Registration() {
         <div>
             {error && <p>something broke</p>}
             <h1>registration component</h1>
-
-            <input
-                onChange={(e) => handleChange(e)}
-                name="first"
-                placeholder="first name"
-                type="text"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="last"
-                placeholder="last name"
-                type="text"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="email"
-                placeholder="email"
-                type="text"
-                autoComplete="email"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="password"
-                placeholder="password"
-                type="password"
-                autoComplete="current-password"
-            />
-            <button onClick={(e) => handleClick(e)}>submit</button>
+            <form>
+                <input
+                    onChange={(e) => handleChange(e)}
+                    name="first"
+                    placeholder="first name"
+                    type="text"
+                />
+                <input
+                    onChange={(e) => handleChange(e)}
+                    name="last"
+                    placeholder="last name"
+                    type="text"
+                />
+                <input
+                    onChange={(e) => handleChange(e)}
+                    name="email"
+                    placeholder="email"
+                    type="text"
+                    autoComplete="email"
+                />
+                <input
+                    onChange={(e) => handleChange(e)}
+                    name="password"
+                    placeholder="password"
+                    type="password"
+                    autoComplete="current-password"
+                />
+                <button onClick={(e) => handleClick(e)}>submit</button>
+            </form>
         </div>
     );
 }

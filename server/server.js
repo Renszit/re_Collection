@@ -22,15 +22,30 @@ app.use(cookieSessionMiddleware);
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
-//app.get('/)
-//app.get('/welcome)
+app.get("/", (req, res) => {
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
+});
+
+app.get("/welcome", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
+});
 
 app.post("/register", (req, res) => {
     const { first, last, email, password } = req.body;
     hash(password)
         .then((hashedpass) => {
             db.addUser(first, last, email, hashedpass)
-                .then(() => {
+                .then(({ rows }) => {
+                    console.log("registration worked:", rows);
+                    req.session.userId = rows[0].id;
                     res.json({ succes: true });
                 })
                 .catch((err) => {
