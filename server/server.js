@@ -4,9 +4,11 @@ const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const db = require("./db");
-const { hash } = require("./bc");
+const { hash, compare } = require("./bc");
+const csurf = require("csurf");
 
 app.use(compression());
+
 app.use(
     express.json({
         extended: false,
@@ -19,6 +21,13 @@ const cookieSessionMiddleware = cookieSession({
 });
 
 app.use(cookieSessionMiddleware);
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
@@ -38,17 +47,38 @@ app.post("/register", (req, res) => {
                 .then(({ rows }) => {
                     console.log("registration worked:", rows);
                     req.session.userId = rows[0].id;
-                    res.json({ succes: true });
+                    res.json({ success: true });
                 })
                 .catch((err) => {
                     console.log(
                         "something went wrong in the register post route",
                         err
                     );
-                    res.json({ succes: false });
+                    res.json({ success: false });
                 });
         })
         .catch((err) => console.log("error in hashing password", err));
+});
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.getHash(email)
+        .then(({ rows }) => {
+            // console.log(rows);
+            const { pass: hash, id: userId } = rows[0];
+            compare(password, hash).then((result) => {
+                if (result) {
+                    req.session.userId = userId;
+                    res.json({ success: true });
+                } else {
+                    res.json({ success: false });
+                }
+            });
+        })
+        .catch((err) => {
+            console.log("login get hash failed", err),
+                res.json({ error: true });
+        });
 });
 
 app.get("*", function (req, res) {

@@ -2,10 +2,8 @@ import axios from "./axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Registration() {
+export default function Login() {
     const [form, setForm] = useState({
-        first: "",
-        last: "",
         email: "",
         password: "",
     });
@@ -19,9 +17,9 @@ export default function Registration() {
     const handleClick = () => {
         console.log(form);
         axios
-            .post("/register", form)
+            .post("/login", form)
             .then((res) => {
-                window.location.replace("/");
+                location.replace("/");
                 console.log(res);
             })
             .catch((err) => {
@@ -32,20 +30,7 @@ export default function Registration() {
     return (
         <div>
             {error && <p>something broke</p>}
-            <h1>Registration component</h1>
-
-            <input
-                onChange={(e) => handleChange(e)}
-                name="first"
-                placeholder="first name"
-                type="text"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="last"
-                placeholder="last name"
-                type="text"
-            />
+            <h1>Login component</h1>
             <input
                 onChange={(e) => handleChange(e)}
                 name="email"
@@ -61,7 +46,7 @@ export default function Registration() {
                 autoComplete="current-password"
             />
             <button onClick={(e) => handleClick(e)}>submit</button>
-            <Link to="/login">Click here to log in!</Link>
+            <Link to="/">Click here to register</Link>
         </div>
     );
 }

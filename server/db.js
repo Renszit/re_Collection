@@ -1,6 +1,7 @@
 var spicedPg = require("spiced-pg");
 var db = spicedPg(
-    process.env.DATABASE_URL || "postgres:rens:recollection@localhost:5432/recollection"
+    process.env.DATABASE_URL ||
+        "postgres:rens:recollection@localhost:5432/recollection"
 );
 
 module.exports.addUser = (first, last, email, pass) => {
@@ -10,3 +11,10 @@ module.exports.addUser = (first, last, email, pass) => {
     const param = [first, last, email, pass];
     return db.query(q, param);
 };
+
+module.exports.getHash = (email) => {
+    const q = `SELECT *  FROM users WHERE email = ($1)`;
+    const param = [email];
+    return db.query(q, param);
+};
+  
