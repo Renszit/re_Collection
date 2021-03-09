@@ -22,14 +22,6 @@ app.use(cookieSessionMiddleware);
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
-app.get("/", (req, res) => {
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
-});
-
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
@@ -60,7 +52,11 @@ app.post("/register", (req, res) => {
 });
 
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
 });
 
 app.listen(process.env.PORT || 3001, function () {
