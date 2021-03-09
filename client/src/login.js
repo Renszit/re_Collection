@@ -47,6 +47,7 @@ export default function Login() {
             />
             <button onClick={(e) => handleClick(e)}>submit</button>
             <Link to="/">Click here to register</Link>
+            <Link to="/reset-password">Forgot your password?</Link>
         </div>
     );
 }

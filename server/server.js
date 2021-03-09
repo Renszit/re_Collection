@@ -3,9 +3,11 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
+
 const db = require("./db");
 const { hash, compare } = require("./bc");
-const csurf = require("csurf");
 
 app.use(compression());
 
@@ -77,8 +79,20 @@ app.post("/login", (req, res) => {
         })
         .catch((err) => {
             console.log("login get hash failed", err),
-                res.json({ error: true });
+            res.json({ error: true });
         });
+});
+
+app.post("/password/reset/start", (req, res) => {
+    const { email } = req.body;
+    const secretCode = cryptoRandomString({
+        length: 6,
+    });
+    
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    const { userId, code, password } = req.body;
 });
 
 app.get("*", function (req, res) {
