@@ -5,9 +5,9 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
-
 const db = require("./db");
 const { hash, compare } = require("./bc");
+const { sendEmail } = require("./ses");
 
 app.use(compression());
 
@@ -59,7 +59,7 @@ app.post("/register", (req, res) => {
                     res.json({ success: false });
                 });
         })
-        .catch((err) => console.log("error in hashing password", err));
+        .catch((err) => console.error("error in hashing password", err));
 });
 
 app.post("/login", (req, res) => {
@@ -78,7 +78,7 @@ app.post("/login", (req, res) => {
             });
         })
         .catch((err) => {
-            console.log("login get hash failed", err),
+            console.error("login get hash failed", err);
             res.json({ error: true });
         });
 });
@@ -88,11 +88,50 @@ app.post("/password/reset/start", (req, res) => {
     const secretCode = cryptoRandomString({
         length: 6,
     });
-    
+    db.getHash(email)
+        .then(() => {
+            db.addSecretCode(email, secretCode).then(() => {
+                //first argument requires verified user in AWS.
+                //Hardcoded own email to make sure all password resets work
+                //Needs to be removed in production and changed to dynamic email
+                sendEmail(
+                    "renspennings@gmail.com",
+                    secretCode,
+                    "Here is your secret code!"
+                );
+                res.json({ state: 2 });
+            });
+        })
+        .catch((err) => {
+            console.error("email does not exists", err);
+            res.json({ error: true });
+        });
 });
 
 app.post("/password/reset/verify", (req, res) => {
-    const { userId, code, password } = req.body;
+    const { email, code, password } = req.body;
+    db.checkCode(email, code)
+        .then(() => {
+            hash(password).then((hash) => {
+                db.updateUsersPassword(email, hash)
+                    .then(() => {
+                        res.json({ success: true });
+                    })
+                    .catch((err) => {
+                        console.error(
+                            "something went wrong while updating users:",
+                            err
+                        );
+                        res.json({ error: true });
+                    });
+            });
+        })
+        .catch((err) => {
+            console.error("error in checking code", err);
+            res.json({
+                error: true,
+            });
+        });
 });
 
 app.get("*", function (req, res) {

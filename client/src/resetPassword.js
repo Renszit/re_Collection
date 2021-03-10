@@ -8,7 +8,6 @@ export default function ResetPassword() {
         email: "",
         code: "",
         password: "",
-        userId: ""
     });
     const [error, setError] = useState(false);
 

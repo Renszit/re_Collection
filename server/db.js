@@ -13,8 +13,30 @@ module.exports.addUser = (first, last, email, pass) => {
 };
 
 module.exports.getHash = (email) => {
-    const q = `SELECT *  FROM users WHERE email = ($1)`;
+    const q = `SELECT * FROM users WHERE email = ($1)`;
     const param = [email];
     return db.query(q, param);
 };
-  
+
+module.exports.addSecretCode = (email, secretCode) => {
+    const q = `INSERT INTO reset_codes (email, code) 
+    VALUES ($1,$2)
+    RETURNING id`;
+    const params = [email, secretCode];
+    return db.query(q, params);
+};
+
+module.exports.checkCode = (email, code) => {
+    const q = `SELECT * FROM reset_codes 
+    WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' 
+    AND email = ($1) 
+    AND code = ($2)`;
+    const params = [email, code];
+    return db.query(q, params);
+};
+
+module.exports.updateUsersPassword = (email, hashedPassword) => {
+    const q = `UPDATE users SET pass = ($1) WHERE email = ($2)`;
+    const params = [hashedPassword, email];
+    return db.query(q, params);
+};

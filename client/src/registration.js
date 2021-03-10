@@ -1,8 +1,27 @@
 import axios from "./axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        "& > *": {
+            margin: theme.spacing(1),
+            width: "25ch",
+        },
+    },
+    form: {
+        display: "flex",
+        flexDirection: "column",
+        width: 300
+    }
+}));
 
 export default function Registration() {
+    const classes = useStyles();
+
     const [form, setForm] = useState({
         first: "",
         last: "",
@@ -32,35 +51,38 @@ export default function Registration() {
     return (
         <div>
             {error && <p>something broke</p>}
-            <h1>Registration component</h1>
-
-            <input
-                onChange={(e) => handleChange(e)}
-                name="first"
-                placeholder="first name"
-                type="text"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="last"
-                placeholder="last name"
-                type="text"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="email"
-                placeholder="email"
-                type="text"
-                autoComplete="email"
-            />
-            <input
-                onChange={(e) => handleChange(e)}
-                name="password"
-                placeholder="password"
-                type="password"
-                autoComplete="current-password"
-            />
-            <button onClick={(e) => handleClick(e)}>submit</button>
+            <h1>Registration</h1>
+            <div className={classes.form}>
+                <TextField
+                    id="standard-basic"
+                    label="first"
+                    name="first"
+                    onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                    id="standard-basic"
+                    label="last"
+                    name="last"
+                    onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                    id="standard-basic"
+                    label="password"
+                    name="password"
+                    type="password"
+                    onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                    id="standard-basic"
+                    label="email"
+                    name="email"
+                    type="email"
+                    onChange={(e) => handleChange(e)}
+                />
+                <Button variant="contained" onClick={(e) => handleClick(e)}>
+                    submit
+                </Button>
+            </div>
             <Link to="/login">Click here to log in!</Link>
         </div>
     );
