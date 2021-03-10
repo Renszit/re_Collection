@@ -15,18 +15,22 @@ const useStyles = makeStyles((theme) => ({
     form: {
         display: "flex",
         flexDirection: "column",
-        width: 300
-    }
+        width: 300,
+        margin: 20,
+    },
+    input: {
+        margin: 10,
+    },
 }));
 
 export default function Registration() {
     const classes = useStyles();
 
     const [form, setForm] = useState({
-        first: "",
-        last: "",
-        email: "",
-        password: "",
+        // first: "",
+        // last: "",
+        // email: "",
+        // password: "",
     });
     const [error, setError] = useState(false);
 
@@ -40,8 +44,11 @@ export default function Registration() {
         axios
             .post("/register", form)
             .then((res) => {
-                window.location.replace("/");
-                console.log(res);
+                if (!res.data.error) {
+                    location.replace("/");
+                } else {
+                    setError(true);
+                }
             })
             .catch((err) => {
                 console.log("error in axios registration", err), setError(true);
@@ -54,32 +61,41 @@ export default function Registration() {
             <h1>Registration</h1>
             <div className={classes.form}>
                 <TextField
+                    className={classes.input}
                     id="standard-basic"
                     label="first"
                     name="first"
                     onChange={(e) => handleChange(e)}
                 />
                 <TextField
+                    className={classes.input}
                     id="standard-basic"
                     label="last"
                     name="last"
                     onChange={(e) => handleChange(e)}
                 />
                 <TextField
-                    id="standard-basic"
-                    label="password"
-                    name="password"
-                    type="password"
-                    onChange={(e) => handleChange(e)}
-                />
-                <TextField
+                    className={classes.input}
                     id="standard-basic"
                     label="email"
                     name="email"
                     type="email"
                     onChange={(e) => handleChange(e)}
                 />
-                <Button variant="contained" onClick={(e) => handleClick(e)}>
+                <TextField
+                    className={classes.input}
+                    id="standard-basic"
+                    label="password"
+                    name="password"
+                    type="password"
+                    onChange={(e) => handleChange(e)}
+                />
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={(e) => handleClick(e)}
+                >
                     submit
                 </Button>
             </div>

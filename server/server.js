@@ -56,10 +56,13 @@ app.post("/register", (req, res) => {
                         "something went wrong in the register post route",
                         err
                     );
-                    res.json({ success: false });
+                    res.json({ error: true });
                 });
         })
-        .catch((err) => console.error("error in hashing password", err));
+        .catch((err) => {
+            console.error("error in hashing password", err);
+            res.json({ error: true });
+        });
 });
 
 app.post("/login", (req, res) => {
@@ -73,7 +76,7 @@ app.post("/login", (req, res) => {
                     req.session.userId = userId;
                     res.json({ success: true });
                 } else {
-                    res.json({ success: false });
+                    res.json({ error: true });
                 }
             });
         })
@@ -90,17 +93,15 @@ app.post("/password/reset/start", (req, res) => {
     });
     db.getHash(email)
         .then(() => {
-            db.addSecretCode(email, secretCode).then(() => {
-                //first argument requires verified user in AWS.
-                //Hardcoded own email to make sure all password resets work
-                //Needs to be removed in production and changed to dynamic email
-                sendEmail(
-                    "renspennings@gmail.com",
-                    secretCode,
-                    "Here is your secret code!"
-                );
-                res.json({ state: 2 });
-            });
+            db.addSecretCode(email, secretCode)
+                .then(() => {
+                    sendEmail(email, secretCode, "Here is your secret code!");
+                    res.json({ state: 2 });
+                })
+                .catch((err) => {
+                    console.log("error in adding secret code", err);
+                    res.json({ error: true });
+                });
         })
         .catch((err) => {
             console.error("email does not exists", err);
@@ -112,19 +113,24 @@ app.post("/password/reset/verify", (req, res) => {
     const { email, code, password } = req.body;
     db.checkCode(email, code)
         .then(() => {
-            hash(password).then((hash) => {
-                db.updateUsersPassword(email, hash)
-                    .then(() => {
-                        res.json({ success: true });
-                    })
-                    .catch((err) => {
-                        console.error(
-                            "something went wrong while updating users:",
-                            err
-                        );
-                        res.json({ error: true });
-                    });
-            });
+            hash(password)
+                .then((hash) => {
+                    db.updateUsersPassword(email, hash)
+                        .then(() => {
+                            res.json({ success: true });
+                        })
+                        .catch((err) => {
+                            console.error(
+                                "something went wrong while updating users:",
+                                err
+                            );
+                            res.json({ error: true });
+                        });
+                })
+                .catch((err) => {
+                    console.log("error in hashing pass", err);
+                    res.json({ error: true });
+                });
         })
         .catch((err) => {
             console.error("error in checking code", err);
