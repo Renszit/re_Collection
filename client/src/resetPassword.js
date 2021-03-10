@@ -1,14 +1,39 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "./axios";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        "& > *": {
+            margin: theme.spacing(1),
+            width: "25ch",
+        },
+    },
+    form: {
+        display: "flex",
+        flexDirection: "column",
+        width: 300,
+        margin: 20,
+    },
+    input: {
+        margin: 10,
+    },
+    button: {
+        margin: 20,
+    },
+    link: {
+        fontSize: 10,
+        textDecoration: "none",
+    },
+}));
 
 export default function ResetPassword() {
+    const classes = useStyles();
     const [state, setState] = useState(1);
-    const [form, setForm] = useState({
-        email: "",
-        code: "",
-        password: "",
-    });
+    const [form, setForm] = useState({});
     const [error, setError] = useState(false);
 
     const handleChange = (e) => {
@@ -21,8 +46,12 @@ export default function ResetPassword() {
             axios
                 .post("/password/reset/start", form)
                 .then((res) => {
-                    setState(2);
-                    console.log(res);
+                    if (!res.data.error) {
+                        setState(2);
+                        console.log(res);
+                    } else {
+                        setError(true);
+                    }
                 })
                 .catch((err) => {
                     setError(true);
@@ -32,8 +61,12 @@ export default function ResetPassword() {
             axios
                 .post("/password/reset/verify", form)
                 .then((res) => {
-                    setState(3);
-                    console.log(res);
+                    if (!res.data.error) {
+                        setState(3);
+                        console.log(res);
+                    } else {
+                        setError(true);
+                    }
                 })
                 .catch((err) => {
                     setError(true);
@@ -47,43 +80,63 @@ export default function ResetPassword() {
             <h1>Reset Password</h1>
             {error && <p>something broke</p>}
             {state == 1 && (
-                <div>
-                    <input
-                        onChange={(e) => handleChange(e)}
+                <div className={classes.form}>
+                    <TextField
+                        className={classes.input}
+                        id="standard-basic"
+                        label="email"
                         name="email"
-                        placeholder="email"
-                        type="text"
-                        autoComplete="email"
+                        type="email"
+                        onChange={(e) => handleChange(e)}
                     />
-                    <button onClick={(e) => handleClick(e)}>
-                        send reset email
-                    </button>
-                    <Link to="/login">go to login</Link>
+                    <Button
+                        size="small"
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        onClick={(e) => handleClick(e)}
+                    >
+                        Send Reset Email
+                    </Button>
+                    <Link to="/login" className={classes.link}>
+                        go to login
+                    </Link>
                 </div>
             )}
             {state == 2 && (
-                <div>
-                    <input
-                        onChange={(e) => handleChange(e)}
+                <div className={classes.form}>
+                    <TextField
+                        className={classes.input}
+                        id="standard-basic"
+                        label="code"
                         name="code"
-                        placeholder="code"
-                        type="text"
-                    />
-                    <input
                         onChange={(e) => handleChange(e)}
-                        name="password"
-                        placeholder="new password"
-                        type="text"
                     />
-                    <button onClick={(e) => handleClick(e)}>
-                        change password
-                    </button>
+                    <TextField
+                        className={classes.input}
+                        id="standard-basic"
+                        label="password"
+                        name="password"
+                        type="password"
+                        onChange={(e) => handleChange(e)}
+                    />
+                    <Button
+                        size="small"
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        onClick={(e) => handleClick(e)}
+                    >
+                        Change password
+                    </Button>
                 </div>
             )}
             {state == 3 && (
                 <div>
-                    <h1>success!</h1>
-                    <Link to="/login">Go back to login</Link>
+                    <h2>success!</h2>
+                    <Link to="/login" className={classes.link}>
+                        Go back to login
+                    </Link>
                 </div>
             )}
         </div>

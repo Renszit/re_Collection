@@ -21,6 +21,17 @@ const useStyles = makeStyles((theme) => ({
     input: {
         margin: 10,
     },
+    button: {
+        margin: 20,
+    },
+    linkContainer: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    link: {
+        fontSize: 10,
+        textDecoration: "none"
+    }
 }));
 
 export default function Login() {
@@ -55,8 +66,8 @@ export default function Login() {
 
     return (
         <div>
-            {error && <p>something broke</p>}
             <h1>Login</h1>
+            {error && <p>something broke</p>}
             <div className={classes.form}>
                 <TextField
                     className={classes.input}
@@ -76,14 +87,21 @@ export default function Login() {
                 />
                 <Button
                     size="small"
+                    className={classes.button}
                     variant="contained"
                     color="primary"
                     onClick={(e) => handleClick(e)}
                 >
                     submit
                 </Button>
-                <Link to="/">Click here to register</Link>
-                <Link to="/reset-password">Forgot your password?</Link>
+            </div>
+            <div className={classes.linkContainer}>
+                <Link className={classes.link} to="/">
+                    Click here to register
+                </Link>
+                <Link className={classes.link} to="/reset-password">
+                    Forgot your password?
+                </Link>
             </div>
         </div>
     );

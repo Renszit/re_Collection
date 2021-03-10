@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
     input: {
         margin: 10,
     },
+    button: {
+        margin: 20,
+    },
+    link: {
+        fontSize: 10,
+        textDecoration: "none",
+    },
 }));
 
 export default function Registration() {
@@ -57,8 +64,8 @@ export default function Registration() {
 
     return (
         <div>
-            {error && <p>something broke</p>}
             <h1>Registration</h1>
+            {error && <p>something broke</p>}
             <div className={classes.form}>
                 <TextField
                     className={classes.input}
@@ -92,6 +99,7 @@ export default function Registration() {
                 />
                 <Button
                     size="small"
+                    className={classes.button}
                     variant="contained"
                     color="primary"
                     onClick={(e) => handleClick(e)}
@@ -99,7 +107,9 @@ export default function Registration() {
                     submit
                 </Button>
             </div>
-            <Link to="/login">Click here to log in!</Link>
+            <Link to="/login" className={classes.link}>
+                Click here to log in!
+            </Link>
         </div>
     );
 }

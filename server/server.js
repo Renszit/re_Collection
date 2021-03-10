@@ -91,12 +91,19 @@ app.post("/password/reset/start", (req, res) => {
     const secretCode = cryptoRandomString({
         length: 6,
     });
+    console.log(req.body);
     db.getHash(email)
         .then(() => {
             db.addSecretCode(email, secretCode)
                 .then(() => {
-                    sendEmail(email, secretCode, "Here is your secret code!");
-                    res.json({ state: 2 });
+                    sendEmail(email, secretCode, "Here is your secret code!")
+                        .then(() => {
+                            res.json({ state: 2 });
+                        })
+                        .catch((err) => {
+                            console.error("error in sending email:", err);
+                            res.json({ error: true });
+                        });
                 })
                 .catch((err) => {
                     console.log("error in adding secret code", err);

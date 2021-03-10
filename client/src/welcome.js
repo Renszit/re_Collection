@@ -5,6 +5,7 @@ import ResetPassword from "./resetPassword";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Header from "./header";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,6 +42,7 @@ export default function Welcome() {
                 justify="center"
                 style={{ minHeight: "100vh" }}
             >
+                <Header />
                 <GridItem classes={classes} />
             </Grid>
         </div>
