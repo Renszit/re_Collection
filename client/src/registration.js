@@ -33,12 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Registration() {
     const classes = useStyles();
 
-    const [form, setForm] = useState({
-        // first: "",
-        // last: "",
-        // email: "",
-        // password: "",
-    });
+    const [form, setForm] = useState({});
     const [error, setError] = useState(false);
 
     const handleChange = (e) => {
