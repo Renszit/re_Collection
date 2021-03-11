@@ -40,3 +40,15 @@ module.exports.updateUsersPassword = (email, hashedPassword) => {
     const params = [hashedPassword, email];
     return db.query(q, params);
 };
+
+module.exports.getLoggedInUser = (id) => {
+    const q = `SELECT first,last,email,bio,url FROM users WHERE id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.uploadUrl = (id, url) => {
+    const q = `UPDATE users SET url = ($1) WHERE id = ($2)`;
+    const params = [url, id];
+    return db.query(q, params);
+};

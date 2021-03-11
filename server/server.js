@@ -4,10 +4,35 @@ const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const multer = require("multer");
 const cryptoRandomString = require("crypto-random-string");
 const db = require("./db");
+const s3 = require("./s3");
+const { s3Url } = require("./config");
 const { hash, compare } = require("./bc");
 const { sendEmail } = require("./ses");
+const uidSafe = require("uid-safe");
+
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: (req, file, callback) => {
+        uidSafe(24)
+            .then((uid) => {
+                callback(null, `${uid}${path.extname(file.originalname)}`);
+            })
+            .catch((err) => callback(err));
+    },
+});
+
+const uploader = multer({
+    storage,
+    limits: {
+        // Set a file size limit to prevent users from uploading huge files and to protect against DOS attacks
+        fileSize: 2097152,
+    },
+});
 
 app.use(compression());
 
@@ -141,6 +166,37 @@ app.post("/password/reset/verify", (req, res) => {
         })
         .catch((err) => {
             console.error("error in checking code", err);
+            res.json({
+                error: true,
+            });
+        });
+});
+
+app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
+    if (req.file) {
+        const image = `${s3Url}${req.file.filename}`;
+        db.uploadUrl(req.session.userId, image)
+            .then(() => {
+                res.json({ url: image });
+            })
+            .catch((err) => {
+                console.log(
+                    "🚀 ~ file: server.js ~ line 221 ~ app.post ~ err",
+                    err
+                );
+            });
+    } else {
+        res.json({ error: true });
+    }
+});
+
+app.get("/user", (req, res) => {
+    db.getLoggedInUser(req.session.userId)
+        .then(({ rows }) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.error("error in user get", err);
             res.json({
                 error: true,
             });
