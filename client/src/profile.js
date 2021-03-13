@@ -8,7 +8,10 @@ export default function Profile({ first, last, url, bio, setUser, toggle }) {
             <h1>
                 Profile of {first} {last}
             </h1>
-            <BioEditor bio={bio} setUser={({bio:arg}) => setUser({bio: arg})} />
-        </div>
+            <BioEditor
+                bio={bio}
+                setUser={({ bio: arg }) => setUser({ bio: arg })}
+            />
+        </div>  
     );
 }

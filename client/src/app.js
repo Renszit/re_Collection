@@ -5,6 +5,8 @@ import ProfilePic from "./profilePic";
 import { makeStyles } from "@material-ui/core/styles";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import OtherProfile from "./otherProfile";
+import { BrowserRouter, Route } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,33 +43,49 @@ export default function App() {
     }, [null]);
 
     return (
-        <div>
-            <div className={classes.header}>
-                <Header />
-                <h1>
-                    Hi {user.first} {user.last}! Welcome to recollection.
-                </h1>
-                <ProfilePic
-                    width={80}
-                    height={80}
-                    url={user.url}
-                    toggle={() => toggleUploader()}
+        <BrowserRouter>
+            <div>
+                <div className={classes.header}>
+                    <Header />
+                    <h1>
+                        Hi {user.first} {user.last}! Welcome to recollection.
+                    </h1>
+                    <ProfilePic
+                        width={80}
+                        height={80}
+                        url={user.url}
+                        toggle={() => toggleUploader()}
+                    />
+                </div>
+                {uploader && (
+                    <Uploader
+                        toggle={() => toggleUploader()}
+                        setUser={({ url: arg }) =>
+                            setUser({ ...user, url: arg })
+                        }
+                    />
+                )}
+
+                <Route
+                    exact
+                    path="/"
+                    render={() => (
+                        <Profile
+                            toggle={() => toggleUploader()}
+                            first={user.first}
+                            last={user.last}
+                            url={user.url}
+                            bio={user.bio}
+                            setUser={({ bio: bio }) =>
+                                setUser({ ...user, bio: bio })
+                            }
+                        />
+                    )}
                 />
+
+                <Route path="/user/:id" render={() => <OtherProfile />} />
+                
             </div>
-            {uploader && (
-                <Uploader
-                    toggle={() => toggleUploader()}
-                    setUser={({ url: arg }) => setUser({ url: arg })}
-                />
-            )}
-            <Profile
-                toggle={() => toggleUploader()}
-                first={user.first}
-                last={user.last}
-                url={user.url}
-                bio={user.bio}
-                setUser={({ bio: bio }) => setUser({ ...user, bio: bio })}
-            />
-        </div>
+        </BrowserRouter>
     );
 }
