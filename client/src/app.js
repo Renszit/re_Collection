@@ -52,7 +52,7 @@ export default function App() {
             {uploader && (
                 <Uploader
                     toggle={() => toggleUploader()}
-                    setUser={() => setUser()}
+                    setUser={({ url: arg }) => setUser({ url: arg })}
                 />
             )}
         </div>

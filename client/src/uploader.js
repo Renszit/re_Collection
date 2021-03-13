@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "./axios";
 
-export default function Uploader({ setUser }) {
+export default function Uploader({ setUser, toggle }) {
     const [image, setImage] = useState();
 
     const handleChange = (e) => {
@@ -13,11 +13,9 @@ export default function Uploader({ setUser }) {
         formData.append("image", image);
         axios
             .post("/upload", formData)
-            .then((res) => {
-                setUser({
-                    url: res.data.url,
-                });
-                console.log(res);
+            .then(({ data }) => {
+                setUser(data);
+                toggle();
             })
             .catch((err) => {
                 console.error("something went wrong with uploading image", err);

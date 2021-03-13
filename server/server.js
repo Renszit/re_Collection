@@ -177,10 +177,10 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
         const image = `${s3Url}${req.file.filename}`;
         db.uploadUrl(req.session.userId, image)
             .then(() => {
-                res.json({ url: image });
+                res.json ({ url: image });
             })
             .catch((err) => {
-                console.log(
+                console.error(
                     "🚀 ~ file: server.js ~ line 221 ~ app.post ~ err",
                     err
                 );
