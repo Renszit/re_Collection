@@ -52,3 +52,9 @@ module.exports.uploadUrl = (id, url) => {
     const params = [url, id];
     return db.query(q, params);
 };
+
+module.exports.updateBio = (id, bio) => {
+    const q = `UPDATE users SET bio = ($1) WHERE id = ($2)`;
+    const params = [bio, id];
+    return db.query(q, params);
+};

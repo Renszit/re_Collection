@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ProfilePic from "./profilePic";
 import { makeStyles } from "@material-ui/core/styles";
 import Uploader from "./uploader";
+import Profile from "./profile";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,15 +47,27 @@ export default function App() {
                 <h1>
                     Hi {user.first} {user.last}! Welcome to recollection.
                 </h1>
-                <ProfilePic url={user.url} toggle={() => toggleUploader()} />
+                <ProfilePic
+                    width={80}
+                    height={80}
+                    url={user.url}
+                    toggle={() => toggleUploader()}
+                />
             </div>
-
             {uploader && (
                 <Uploader
                     toggle={() => toggleUploader()}
                     setUser={({ url: arg }) => setUser({ url: arg })}
                 />
             )}
+            <Profile
+                toggle={() => toggleUploader()}
+                first={user.first}
+                last={user.last}
+                url={user.url}
+                bio={user.bio}
+                setUser={({ bio: bio }) => setUser({ ...user, bio: bio })}
+            />
         </div>
     );
 }

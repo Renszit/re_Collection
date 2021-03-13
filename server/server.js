@@ -177,7 +177,7 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
         const image = `${s3Url}${req.file.filename}`;
         db.uploadUrl(req.session.userId, image)
             .then(() => {
-                res.json ({ url: image });
+                res.json({ url: image });
             })
             .catch((err) => {
                 console.error(
@@ -188,6 +188,19 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
     } else {
         res.json({ error: true });
     }
+});
+
+app.post("/updateBio", (req, res) => {
+    const { bio } = req.body;
+    console.log(req);
+    db.updateBio(req.session.userId, bio)
+        .then(() => {
+            res.json({ success: true, bio: bio });
+        })
+        .catch((err) => {
+            console.error("error in update bio route", err);
+            res.json({ error: true });
+        });
 });
 
 app.get("/user", (req, res) => {

@@ -30,17 +30,14 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         fontSize: 10,
-        textDecoration: "none"
-    }
+        textDecoration: "none",
+    },
 }));
 
 export default function Login() {
     const classes = useStyles();
 
-    const [form, setForm] = useState({
-        // email: "",
-        // password: "",
-    });
+    const [form, setForm] = useState({});
     const [error, setError] = useState(false);
 
     const handleChange = (e) => {
