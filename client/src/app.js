@@ -83,8 +83,16 @@ export default function App() {
                     )}
                 />
 
-                <Route path="/user/:id" render={() => <OtherProfile />} />
-                
+                <Route
+                    path="/user/:id"
+                    render={(props) => (
+                        <OtherProfile
+                            key={props.match.url}
+                            match={props.match}
+                            history={props.history}
+                        />
+                    )}
+                />
             </div>
         </BrowserRouter>
     );

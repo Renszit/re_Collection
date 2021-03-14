@@ -216,6 +216,20 @@ app.get("/user", (req, res) => {
         });
 });
 
+app.post("/getOtherProfileInfo", (req, res) => {
+    db.getInfoOfOtherUser(req.body.id)
+        .then(({ rows }) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.error(
+                "something went wrong in db query get other profile",
+                err
+            );
+            res.json({ error: true });
+        });
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
