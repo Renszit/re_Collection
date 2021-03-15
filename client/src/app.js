@@ -7,6 +7,7 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import OtherProfile from "./otherProfile";
 import { BrowserRouter, Route } from "react-router-dom";
+import FindPeople from "./findPeople";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,7 +85,7 @@ export default function App() {
                 />
 
                 <Route
-                    path="/user/:id"
+                    path="/users/:id"
                     render={(props) => (
                         <OtherProfile
                             key={props.match.url}
@@ -93,6 +94,8 @@ export default function App() {
                         />
                     )}
                 />
+
+                <Route path="/findpeople" render={() => <FindPeople />} />
             </div>
         </BrowserRouter>
     );

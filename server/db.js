@@ -64,3 +64,13 @@ module.exports.getInfoOfOtherUser = (id) => {
     const params = [id];
     return db.query(q, params);
 };
+
+module.exports.getRecentUsers = () => {
+    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3`);
+};
+
+module.exports.searchForUsers = (val) => {
+    const q = `SELECT first,last,id,url FROM users WHERE first ILIKE ($1) LIMIT 3`;
+    const param = [val + "%"];
+    return db.query(q, param);
+};

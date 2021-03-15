@@ -15,9 +15,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProfilePic({ url, toggle, width, height }) {
     const classes = useStyles();
-
     // console.log("props in ProfilePic: ", url);
-    url = url || "missing.jpg";
+    url = url || "/missing.jpg";
 
     return (
         <div>

@@ -1,14 +1,19 @@
 import axios from "./axios";
 import { useEffect, useState } from "react";
+import ProfilePic from "./profilePic";
 
-export default function OtherProfile({ match }) {
+export default function OtherProfile({ match, history }) {
     const [otherUser, setOtherUser] = useState({});
 
     useEffect(() => {
         axios
             .post("/getOtherProfileInfo", { id: match.params.id })
             .then(({ data }) => {
-                setOtherUser(data);
+                if (!data.error) {
+                    setOtherUser(data);
+                } else {
+                    history.push("/");
+                }
             })
             .catch((err) =>
                 console.log(
@@ -21,7 +26,7 @@ export default function OtherProfile({ match }) {
     return (
         <div>
             <h1>otherProfile</h1>
-            <img src={otherUser.url}></img>
+            <ProfilePic width={200} height={200} url={otherUser.url} />
             <p>
                 {otherUser.first} {otherUser.last}
             </p>

@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
-
     const [form, setForm] = useState({});
     const [error, setError] = useState(false);
 

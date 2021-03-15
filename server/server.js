@@ -6,12 +6,13 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const multer = require("multer");
 const cryptoRandomString = require("crypto-random-string");
+const uidSafe = require("uid-safe");
+
 const db = require("./db");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
 const { hash, compare } = require("./bc");
 const { sendEmail } = require("./ses");
-const uidSafe = require("uid-safe");
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
@@ -172,6 +173,23 @@ app.post("/password/reset/verify", (req, res) => {
         });
 });
 
+app.get("/recentUsers", (req, res) => {
+    db.getRecentUsers()
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+app.post("/searchUsers", (req, res) => {
+    console.log(req.body.val);
+    db.searchForUsers(req.body.val)
+        .then(({ rows }) => res.json(rows))
+        .catch((err) => console.log(err));
+});
+
 app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
     if (req.file) {
         const image = `${s3Url}${req.file.filename}`;
@@ -217,17 +235,25 @@ app.get("/user", (req, res) => {
 });
 
 app.post("/getOtherProfileInfo", (req, res) => {
-    db.getInfoOfOtherUser(req.body.id)
-        .then(({ rows }) => {
-            res.json(rows[0]);
-        })
-        .catch((err) => {
-            console.error(
-                "something went wrong in db query get other profile",
-                err
-            );
-            res.json({ error: true });
-        });
+    if (req.body.id == req.session.userId) {
+        res.json({ error: true });
+    } else {
+        db.getInfoOfOtherUser(req.body.id)
+            .then(({ rows }) => {
+                if (rows[0]) {
+                    res.json(rows[0]);
+                } else {
+                    res.json({ error: true });
+                }
+            })
+            .catch((err) => {
+                console.error(
+                    "something went wrong in db query get other profile",
+                    err
+                );
+                res.json({ error: true });
+            });
+    }
 });
 
 app.get("*", function (req, res) {
