@@ -40,8 +40,8 @@ export default function FindPeople() {
                 {results.map((user, index) => (
                     <div key={index}>
                         <Link to={`/users/${user.id}`}>
+                            <ProfilePic width={60} height={60} url={user.url} />
                             <p>
-                                <ProfilePic width={60} height={60} url={user.url} />
                                 {user.first} {user.last}
                             </p>
                         </Link>
