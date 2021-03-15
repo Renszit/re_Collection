@@ -179,15 +179,14 @@ app.get("/recentUsers", (req, res) => {
             res.json(rows);
         })
         .catch((err) => {
-            console.log(err);
+            console.log("error in recent users", err);
         });
 });
 
-app.post("/searchUsers", (req, res) => {
-    console.log(req.body.val);
-    db.searchForUsers(req.body.val)
+app.get("/searchUsers/:val", (req, res) => {
+    db.searchForUsers(req.params.val)
         .then(({ rows }) => res.json(rows))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log("error in searching users", err));
 });
 
 app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
