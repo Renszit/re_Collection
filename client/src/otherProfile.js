@@ -1,6 +1,7 @@
 import axios from "./axios";
 import { useEffect, useState } from "react";
 import ProfilePic from "./profilePic";
+import FriendButton from "./friendButton";
 
 export default function OtherProfile({ match, history }) {
     const [otherUser, setOtherUser] = useState({});
@@ -31,6 +32,7 @@ export default function OtherProfile({ match, history }) {
                 {otherUser.first} {otherUser.last}
             </p>
             <p>{otherUser.bio}</p>
+            <FriendButton id={match.params.id} />
         </div>
     );
 }

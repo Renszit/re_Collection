@@ -255,6 +255,60 @@ app.post("/getOtherProfileInfo", (req, res) => {
     }
 });
 
+app.get("/friendships/:id", (req, res) => {
+    db.checkForFriendships(req.params.id, req.session.userId)
+        .then(({ rows }) => {
+            res.json({
+                rows: rows[0],
+                userId: req.session.userId,
+            });
+        })
+        .catch((err) => {
+            console.error("something wrong in getting friendship status", err);
+        });
+});
+
+app.post("/addfriend", (req, res) => {
+    const BUTTON_TEXT = {
+        ACCEPT: "accept request",
+        REQUEST: "request friendship",
+        CANCEL: "cancel request",
+        UNFRIEND: "unfriend",
+    };
+    const { action, otherId } = req.body;
+
+    if (action == BUTTON_TEXT.REQUEST) {
+        db.makeRequest(req.session.userId, otherId)
+            .then(({ rows }) => {
+                res.json({
+                    rows: rows[0],
+                    userId: req.session.userId,
+                });
+            })
+            .catch((err) => console.log("error makerequest", err));
+    } else if (action == BUTTON_TEXT.CANCEL || BUTTON_TEXT.UNFRIEND) {
+        db.unfriend(req.session.userId, otherId)
+            .then(() => {
+                res.json({
+                    rows: null,
+                    userId: req.session.userId,
+                });
+            })
+            .catch((err) => console.log("error unfriend", err));
+    } else if (action == BUTTON_TEXT.ACCEPT) {
+        db.friendAccept(req.session.userId, otherId)
+            .then(() => {
+                res.json({
+                    rows: {
+                        accepted: true,
+                    },
+                    userId: req.session.userId,
+                });
+            })
+            .catch((err) => console.log("error in accepting friend", err));
+    } 
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
