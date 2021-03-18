@@ -2,6 +2,7 @@ import axios from "./axios";
 import { useEffect, useState } from "react";
 import ProfilePic from "./profilePic";
 import FriendButton from "./friendButton";
+import Typography from "@material-ui/core/Typography";
 
 export default function OtherProfile({ match, history }) {
     const [otherUser, setOtherUser] = useState({});
@@ -26,11 +27,11 @@ export default function OtherProfile({ match, history }) {
 
     return (
         <div>
-            <h1>otherProfile</h1>
-            <ProfilePic width={200} height={200} url={otherUser.url} />
-            <p>
+            <Typography variant="h3" color="initial">
                 {otherUser.first} {otherUser.last}
-            </p>
+            </Typography>
+            <ProfilePic width={200} height={200} url={otherUser.url} />
+
             <p>{otherUser.bio}</p>
             <FriendButton id={match.params.id} />
         </div>

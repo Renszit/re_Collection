@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
 
 export default function BioEditor({ bio, setUser }) {
     const [textAreaVisible, setTextArea] = useState(false);
@@ -34,34 +38,45 @@ export default function BioEditor({ bio, setUser }) {
 
     return (
         <div>
-            <h1>Bio:</h1>
-            {error && <p>something broke</p>}
-            <p>{bio}</p>
+            <Card>
+                <Typography variant="h3" color="initial">
+                    Bio:
+                </Typography>
+                {error && <p>something broke</p>}
+                <Typography variant="body1" color="initial">
+                    {bio}
+                </Typography>
+            </Card>
             {textAreaVisible && (
-                <textarea
-                    name="bio"
+                <TextField
+                    id="textfield"
+                    label="bio"
+                    size="large"
+                    fullWidth
                     onChange={(e) => handleChange(e)}
-                    placeholder={bio}
                 />
             )}
-
             {!textAreaVisible && (
-                <button
+                <Button
                     onClick={() => {
                         setTextArea(!textAreaVisible);
                     }}
+                    variant="contained"
+                    color="default"
                 >
                     {buttonValue}
-                </button>
+                </Button>
             )}
             {textAreaVisible && (
-                <button
+                <Button
                     onClick={() => {
                         handleClick();
                     }}
+                    variant="contained"
+                    color="default"
                 >
                     send this to the cloud
-                </button>
+                </Button>
             )}
         </div>
     );

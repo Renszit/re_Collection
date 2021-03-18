@@ -207,6 +207,42 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
     }
 });
 
+app.get("/getwannabes", (req, res) => {
+    console.log("works");
+    db.getWannabes(req.session.userId)
+        .then(({ rows }) => {
+            console.log(rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("error in getting wannabes", err);
+        });
+});
+
+app.post("/acceptfriend", (req, res) => {
+    const { otherId } = req.body;
+    db.friendAccept(req.session.userId, otherId).then(() => {
+        res.json({
+            rows: {
+                accepted: true,
+            },
+            userId: req.session.userId,
+        });
+    });
+});
+
+app.post("/unfriend", (req, res) => {
+    const { otherId } = req.body;
+    db.unfriend(req.session.userId, otherId)
+        .then(() => {
+            res.json({
+                rows: null,
+                userId: req.session.userId,
+            });
+        })
+        .catch((err) => console.log("error unfriend", err));
+});
+
 app.post("/updateBio", (req, res) => {
     const { bio } = req.body;
     console.log(req);
@@ -306,7 +342,12 @@ app.post("/addfriend", (req, res) => {
                 });
             })
             .catch((err) => console.log("error in accepting friend", err));
-    } 
+    }
+});
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.sendStatus(200);
 });
 
 app.get("*", function (req, res) {

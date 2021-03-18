@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "./axios";
+import Button from "@material-ui/core/Button";
 
 const BUTTON_TEXT = {
     ACCEPT: "accept request",
@@ -14,15 +15,14 @@ function buttonTextAdapt(status) {
     if (status.rows) {
         const { sender_id, accepted } = status.rows;
         const userId = status.userId;
-
-        if (accepted) {
-            text = BUTTON_TEXT.UNFRIEND;
-            return text;
-        } else if (sender_id == userId) {
+        if (accepted == false && sender_id == userId) {
             text = BUTTON_TEXT.CANCEL;
             return text;
-        } else {
+        } else if (accepted == false) {
             text = BUTTON_TEXT.ACCEPT;
+            return text;
+        } else {
+            text = BUTTON_TEXT.UNFRIEND;
             return text;
         }
     }
@@ -58,7 +58,13 @@ export default function FriendButton({ id }) {
 
     return (
         <div>
-            <button onClick={() => handleClick()}>{button}</button>
+            <Button
+                onClick={() => handleClick()}
+                variant="outlined"
+                color="primary"
+            >
+                {button}
+            </Button>
         </div>
     );
 }

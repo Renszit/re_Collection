@@ -6,6 +6,8 @@ import Profile from "./profile";
 import OtherProfile from "./otherProfile";
 import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findPeople";
+import Container from "@material-ui/core/Container";
+import Friends from "./friends";
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -28,21 +30,18 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <div>
-                <MenuBar
-                    first={user.first}
-                    url={user.url}
+            <MenuBar
+                first={user.first}
+                url={user.url}
+                toggle={() => toggleUploader()}
+            />
+            {uploader && (
+                <Uploader
                     toggle={() => toggleUploader()}
+                    setUser={({ url: arg }) => setUser({ ...user, url: arg })}
                 />
-                {uploader && (
-                    <Uploader
-                        toggle={() => toggleUploader()}
-                        setUser={({ url: arg }) =>
-                            setUser({ ...user, url: arg })
-                        }
-                    />
-                )}
-
+            )}
+            <Container maxWidth="md">
                 <Route
                     exact
                     path="/"
@@ -71,8 +70,9 @@ export default function App() {
                     )}
                 />
 
+                <Route path="/friends" render={() => <Friends />} />
                 <Route path="/findpeople" render={() => <FindPeople />} />
-            </div>
+            </Container>
         </BrowserRouter>
     );
 }

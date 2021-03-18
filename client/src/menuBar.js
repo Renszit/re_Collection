@@ -1,5 +1,4 @@
 import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,6 +8,9 @@ import ProfilePic from "./profilePic";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Drawer from "@material-ui/core/Drawer";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import axios from "./axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,6 +36,13 @@ export default function MenuBar({ first, url, toggle }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(false);
 
+    const logout = () => {
+        axios
+            .get("/logout")
+            .then(() => location.replace("/welcome"))
+            .catch((err) => console.log("err", err));
+    };
+
     return (
         <div className={classes.header}>
             <AppBar position="static">
@@ -45,20 +54,45 @@ export default function MenuBar({ first, url, toggle }) {
                         open={Boolean(anchorEl)}
                         onClose={() => setAnchorEl(false)}
                     >
-                        <MenuItem onClick={() => setAnchorEl(false)}>
-                            <Link className={classes.link} to="/">
-                                {" "}
-                                Profile{" "}
-                            </Link>
-                        </MenuItem>
-                        <MenuItem onClick={() => setAnchorEl(false)}>
-                            <Link className={classes.link} to="/findpeople">
-                                Search users
-                            </Link>
-                        </MenuItem>
-                        <MenuItem onClick={() => setAnchorEl(false)}>
-                            Logout
-                        </MenuItem>
+                        <Drawer
+                            variant="temporary"
+                            anchor="left"
+                            open={Boolean(anchorEl)}
+                            onClose={() => setAnchorEl(false)}
+                        >
+                            <List>
+                                <ListItem
+                                    button
+                                    onClick={() => setAnchorEl(false)}
+                                >
+                                    <Link className={classes.link} to="/">
+                                        <ListItemText primary="Profile"></ListItemText>
+                                    </Link>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={() => {
+                                        setAnchorEl(false);
+                                    }}
+                                >
+                                    <Link
+                                        className={classes.link}
+                                        to="/findpeople"
+                                    >
+                                        <ListItemText primary="Search users"></ListItemText>
+                                    </Link>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={() => {
+                                        setAnchorEl(false);
+                                        logout();
+                                    }}
+                                >
+                                    <ListItemText primary="Logout"></ListItemText>
+                                </ListItem>
+                            </List>
+                        </Drawer>
                     </Menu>
                     <IconButton
                         edge="start"

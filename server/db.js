@@ -106,3 +106,14 @@ module.exports.friendAccept = (userId, otherUserId) => {
     const param = [userId, otherUserId];
     return db.query(q, param);
 };
+
+module.exports.getWannabes = (id) => {
+    const q = `SELECT users.id, first, last, url, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
+    const param = [id];
+    return db.query(q, param);
+};
