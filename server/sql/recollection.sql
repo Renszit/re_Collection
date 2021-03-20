@@ -25,3 +25,9 @@ CREATE TABLE friendships(
   recipient_id INT REFERENCES users(id) NOT NULL,
   accepted BOOLEAN DEFAULT false
 );
+
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,23,TRUE);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,21,TRUE);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,19,TRUE);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,100,TRUE);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (2,5,FALSE);

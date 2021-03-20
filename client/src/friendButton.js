@@ -33,7 +33,7 @@ export default function FriendButton({ id }) {
     const [button, setButton] = useState();
 
     const handleClick = () => {
-        console.log("eh?");
+        // console.log("eh?");
         axios
             .post("/addfriend/", { otherId: id, action: button })
             .then(({ data }) => {
