@@ -26,8 +26,24 @@ CREATE TABLE friendships(
   accepted BOOLEAN DEFAULT false
 );
 
+DROP TABLE IF EXISTS chatters;
+CREATE TABLE chatters(
+  id SERIAL PRIMARY KEY,
+  sender_id INT REFERENCES users(id) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  message VARCHAR(255)
+);
+
+INSERT INTO chatters (sender_id, message) VALUES (2, 'hello');
+INSERT INTO chatters (sender_id, message) VALUES (4, 'hi');
+INSERT INTO chatters (sender_id, message) VALUES (9, 'hola');
+INSERT INTO chatters (sender_id, message) VALUES (12, 'chejamapelle');
+
+
+
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,23,TRUE);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,21,TRUE);
-INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,19,TRUE);
+INSERT INTO friendships ( sender_id, recipient_id, accepted) VALUES (5,19,TRUE);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,100,TRUE);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (2,5,FALSE);
+

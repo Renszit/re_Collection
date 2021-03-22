@@ -2,6 +2,8 @@ const ACTIONS = {
     GET_LIST: "get list",
     ACCEPT: "accept",
     DECLINE: "decline",
+    RECENT_MESSAGES: "recent",
+    NEW_MESSAGE: "new",
 };
 
 export function Reducer(state = {}, action) {
@@ -30,6 +32,16 @@ export function Reducer(state = {}, action) {
             wannabes: state.wannabes.filter(
                 (declineCheck) => declineCheck.id != action.id
             ),
+        };
+    } else if (action.type == ACTIONS.RECENT_MESSAGES) {
+        state = {
+            ...state,
+            messages: action.messages,
+        };
+    } else if (action.type == ACTIONS.NEW_MESSAGE) {
+        state = {
+            ...state,
+            messages: [...state.messages, action.newMessage],
         };
     }
 

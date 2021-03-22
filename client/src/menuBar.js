@@ -86,6 +86,19 @@ export default function MenuBar({ first, url, toggle }) {
                                     button
                                     onClick={() => {
                                         setAnchorEl(false);
+                                    }}
+                                >
+                                    <Link
+                                        className={classes.link}
+                                        to="/chatters"
+                                    >
+                                        <ListItemText primary="Chatters"></ListItemText>
+                                    </Link>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={() => {
+                                        setAnchorEl(false);
                                         logout();
                                     }}
                                 >

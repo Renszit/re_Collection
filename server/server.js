@@ -8,6 +8,12 @@ const multer = require("multer");
 const cryptoRandomString = require("crypto-random-string");
 const uidSafe = require("uid-safe");
 
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
 const db = require("./db");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
@@ -49,6 +55,10 @@ const cookieSessionMiddleware = cookieSession({
 });
 
 app.use(cookieSessionMiddleware);
+
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -358,6 +368,45 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", (socket) => {
+    console.log(`socket with id ${socket.id} just connected!`);
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const userId = socket.request.session.userId;
+    console.log("users id:", userId);
+
+    db.recentMessages()
+        .then(({ rows }) => {
+            socket.emit("newMessages", rows.reverse());
+        })
+        .catch((err) => console.error(err));
+
+    socket.on("my amazing chat message", (message) => {
+        db.newMessage(userId, message)
+            .then(() => {
+                db.getUserInfo(userId)
+                    .then(({ rows }) => {
+                        io.sockets.emit("new message incoming", {
+                            userId: userId,
+                            message: message,
+                            first: rows[0].first,
+                            last: rows[0].last,
+                            url: rows[0].url,
+                        });
+                    })
+                    .catch((err) =>
+                        console.log("error in posting to socket", err)
+                    );
+            })
+            .catch((err) => console.log("error in posting new image", err));
+    });
+
+    socket.on("disconnect", function () {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
 });

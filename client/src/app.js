@@ -8,6 +8,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findPeople";
 import Container from "@material-ui/core/Container";
 import Friends from "./friends";
+import Chat from "./chat";
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -58,6 +59,7 @@ export default function App() {
                         />
                     )}
                 />
+                <Route path="/chatters" component={Chat} />
 
                 <Route
                     path="/users/:id"

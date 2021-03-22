@@ -117,3 +117,28 @@ module.exports.getWannabes = (id) => {
     const param = [id];
     return db.query(q, param);
 };
+
+module.exports.recentMessages = () => {
+    const q = `(SELECT chatters.sender_id, chatters.message, chatters.created_at, users.url, users.first, users.last 
+    FROM chatters
+    JOIN users 
+    ON chatters.sender_id = users.id
+    LIMIT 10) 
+    ORDER BY chatters.created_at DESC
+    `;
+    return db.query(q);
+};
+
+module.exports.newMessage = (sender_id, message) => {
+    const q = `INSERT INTO chatters (sender_id, message) 
+    VALUES($1,$2) RETURNING id`;
+    const params = [sender_id, message];
+    return db.query(q, params);
+};
+
+module.exports.getUserInfo = (id) => {
+    const q = `SELECT first,last,url
+    FROM users WHERE id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};

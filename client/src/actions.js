@@ -4,6 +4,8 @@ const ACTIONS = {
     GET_LIST: "get list",
     ACCEPT: "accept",
     DECLINE: "decline",
+    RECENT_MESSAGES: "recent",
+    NEW_MESSAGE: "new",
 };
 
 export async function getWannabes() {
@@ -27,5 +29,19 @@ export async function declineFriend(id) {
     return {
         type: ACTIONS.DECLINE,
         id: id,
+    };
+}
+
+export async function recentMessagesRedux(messages) {
+    return {
+        type: ACTIONS.RECENT_MESSAGES,
+        messages: messages,
+    };
+}
+
+export async function newMessageIncoming(message) {
+    return {
+        type: ACTIONS.NEW_MESSAGE,
+        newMessage: message,
     };
 }
