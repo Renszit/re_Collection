@@ -8,7 +8,7 @@ const BUTTON_TEXT = {
     CANCEL: "cancel request",
     UNFRIEND: "unfriend",
 };
-
+    
 function buttonTextAdapt(status) {
     let text = BUTTON_TEXT.REQUEST;
     console.log("status:", status);

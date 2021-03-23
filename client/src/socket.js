@@ -2,7 +2,9 @@ import io from "socket.io-client";
 import {
     newMessageIncoming,
     recentMessagesRedux,
-    // renewLoggedInUsers,
+    currentOnlineUsers,
+    userJustJoined,
+    userLeft,
 } from "./actions";
 
 export let socket;
@@ -13,7 +15,6 @@ export const init = (store) => {
     }
 
     socket.on("newMessages", (recentMessages) => {
-        console.log("socket incoming!:", recentMessages);
         store.dispatch(recentMessagesRedux(recentMessages));
     });
 
@@ -21,15 +22,16 @@ export const init = (store) => {
         store.dispatch(newMessageIncoming(message));
     });
 
-    // socket.on("10 most recent messages", (recent) => {
-    //     store.dispatch(addTenMostRecentMessagesToRedux(recent));
-    // });
+    socket.on("online users", (users) => {
+        store.dispatch(currentOnlineUsers(users));
+    });
 
-    // socket.on("update online users", (users) => {
-    //     store.dispatch(renewLoggedInUsers(users));
-    // });
+    socket.on("new user just joined", (user) => {
+        store.dispatch(userJustJoined(user));
+    });
 
-    // socket.on("userJoined", (users) => {
-    //     store.dispatch(renewLoggedInUsers(users));
-    // });
+    socket.on("user left", (user) => {
+        store.dispatch(userLeft(user));
+        console.log("userId left:", user.user);
+    });
 };

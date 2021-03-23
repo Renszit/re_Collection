@@ -4,6 +4,10 @@ const ACTIONS = {
     DECLINE: "decline",
     RECENT_MESSAGES: "recent",
     NEW_MESSAGE: "new",
+    //
+    ONLINE_USERS: "online",
+    NEW_USER: "new user",
+    USER_LEFT: "user left",
 };
 
 export function Reducer(state = {}, action) {

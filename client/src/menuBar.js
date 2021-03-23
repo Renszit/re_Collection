@@ -4,13 +4,13 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
-import ProfilePic from "./profilePic";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import axios from "./axios";
+import { Avatar } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -121,12 +121,12 @@ export default function MenuBar({ first, url, toggle }) {
                     <Typography variant="h6" className={classes.title}>
                         Hi {first}! Welcome to recollection.
                     </Typography>
-                    <ProfilePic
-                        width={70}
-                        height={70}
-                        url={url}
-                        toggle={toggle}
-                    />
+                    <Avatar
+                        alt={first}
+                        component="div"
+                        onClick={toggle}
+                        src={url || "./missing.jpg"}
+                    ></Avatar>
                 </Toolbar>
             </AppBar>
         </div>

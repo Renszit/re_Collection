@@ -3,7 +3,7 @@ import axios from "./axios";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
+// import Card from "@material-ui/core/Card";
 
 export default function BioEditor({ bio, setUser }) {
     const [textAreaVisible, setTextArea] = useState(false);
@@ -38,15 +38,10 @@ export default function BioEditor({ bio, setUser }) {
 
     return (
         <div>
-            <Card>
-                <Typography variant="h3" color="initial">
-                    Bio:
-                </Typography>
-                {error && <p>something broke</p>}
-                <Typography variant="body1" color="initial">
-                    {bio}
-                </Typography>
-            </Card>
+            {error && <p>something broke</p>}
+            <Typography variant="h5" color="initial">
+                {bio}
+            </Typography>
             {textAreaVisible && (
                 <TextField
                     id="textfield"

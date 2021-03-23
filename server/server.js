@@ -372,13 +372,34 @@ server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
 
+let onlineUsers = {};
+
 io.on("connection", (socket) => {
     console.log(`socket with id ${socket.id} just connected!`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
     const userId = socket.request.session.userId;
-    console.log("users id:", userId);
+
+    onlineUsers[socket.id] = userId;
+    
+    const onlineUserIds = Object.values(onlineUsers);
+
+    db.getUsersByIds(onlineUserIds)
+        .then(({ rows }) => {
+            // console.log("online users:", rows);
+            socket.emit("online users", rows);
+        })
+        .catch((err) => console.log("error in getting users by id's", err));
+
+    if (onlineUserIds.filter((id) => id == userId).length == 1) {
+        db.getUserInfo(userId)
+            .then(({ rows }) => {
+                // console.log("new user online!", rows);
+                socket.broadcast.emit("new user just joined", rows);
+            })
+            .catch((err) => console.log("error in emitting to users", err));
+    }
 
     db.recentMessages()
         .then(({ rows }) => {
@@ -407,6 +428,10 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", function () {
+        delete onlineUsers[socket.id];
+        if (Object.values(onlineUsers).indexOf(userId) < 1) {
+            socket.broadcast.emit("user left", { user: userId });
+        }
         console.log(`socket with the id ${socket.id} is now disconnected`);
     });
 });

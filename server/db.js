@@ -137,8 +137,13 @@ module.exports.newMessage = (sender_id, message) => {
 };
 
 module.exports.getUserInfo = (id) => {
-    const q = `SELECT first,last,url
+    const q = `SELECT id,first,last,url
     FROM users WHERE id = ($1)`;
     const params = [id];
     return db.query(q, params);
+};
+
+module.exports.getUsersByIds = (arrayOfIds) => {
+    const query = `SELECT id, first, last, url FROM users WHERE id = ANY($1)`;
+    return db.query(query, [arrayOfIds]);
 };

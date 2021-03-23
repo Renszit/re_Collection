@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { useSelector } from "react-redux";
+import { Paper, Typography } from "@material-ui/core";
+import OnlineUsers from "./onlineUsers";
 
 export default function Chat() {
     const elemRef = useRef();
@@ -22,18 +24,23 @@ export default function Chat() {
 
     return (
         <>
-            <h1>Chat room</h1>
-            <div className="chat-container" ref={elemRef}>
+            <Typography variant="h2" color="initial">
+                Chat Room
+            </Typography>   
+            <OnlineUsers />
+            <Paper ref={elemRef} elevation={1}>
                 {messages &&
                     messages.map((message, index) => (
                         <div key={index}>
-                            <p>
+                            <Typography variant="body2" color="initial">
                                 {message.first} {message.last} says:
-                            </p>
-                            <p>{message.message}</p>
+                            </Typography>
+                            <Typography variant="caption" color="initial">
+                                {message.message}
+                            </Typography>
                         </div>
                     ))}
-            </div>
+            </Paper>
             <textarea
                 placeholder="add your message here!"
                 onKeyDown={keyCheck}

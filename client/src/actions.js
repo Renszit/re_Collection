@@ -6,6 +6,9 @@ const ACTIONS = {
     DECLINE: "decline",
     RECENT_MESSAGES: "recent",
     NEW_MESSAGE: "new",
+    ONLINE_USERS: "online",
+    NEW_USER: "new user",
+    USER_LEFT: "user left"
 };
 
 export async function getWannabes() {
@@ -43,5 +46,26 @@ export async function newMessageIncoming(message) {
     return {
         type: ACTIONS.NEW_MESSAGE,
         newMessage: message,
+    };
+}
+
+export async function currentOnlineUsers(users) {
+    return {
+        type: ACTIONS.ONLINE_USERS,
+        onlineUsers: users,
+    };
+}
+
+export async function userJustJoined(user) {
+    return {
+        type: ACTIONS.NEW_USER,
+        newUser: user,
+    };
+}
+
+export async function userLeft(user) {
+    return {
+        type: ACTIONS.USER_LEFT,
+        leftUser: user,
     };
 }
