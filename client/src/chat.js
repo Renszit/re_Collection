@@ -1,10 +1,28 @@
 import { useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { useSelector } from "react-redux";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, makeStyles, TextField } from "@material-ui/core";
 import OnlineUsers from "./onlineUsers";
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+        "& > *": {
+            margin: theme.spacing(1),
+        },
+    },
+    paper: {
+        overflowY: "auto",
+        height: 300,
+        padding: 10,
+    },
+    textField: {
+        marginTop: 10,
+    }
+}));
+
 export default function Chat() {
+    const classes = useStyles();
     const elemRef = useRef();
     const messages = useSelector((state) => state.messages && state.messages);
 
@@ -24,11 +42,11 @@ export default function Chat() {
 
     return (
         <>
-            <Typography variant="h2" color="initial">
+            <Typography  variant="h2" color="initial">
                 Chat Room
-            </Typography>   
+            </Typography>
             <OnlineUsers />
-            <Paper ref={elemRef} elevation={1}>
+            <Paper className={classes.paper} ref={elemRef} elevation={1}>
                 {messages &&
                     messages.map((message, index) => (
                         <div key={index}>
@@ -41,10 +59,12 @@ export default function Chat() {
                         </div>
                     ))}
             </Paper>
-            <textarea
-                placeholder="add your message here!"
+            <TextField
+                className={classes.textField}
+                fullWidth
+                label="discuss"
                 onKeyDown={keyCheck}
-            ></textarea>
+            />
         </>
     );
 }

@@ -1,9 +1,9 @@
-import Menu from "@material-ui/core/Menu";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -11,6 +11,10 @@ import Drawer from "@material-ui/core/Drawer";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import axios from "./axios";
 import { Avatar } from "@material-ui/core";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import SearchIcon from "@material-ui/icons/Search";
+import ChatIcon from "@material-ui/icons/Chat";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         textDecoration: "none",
+        color: "secondary",
+    },
+    list: {
+        width: 300,
     },
 }));
 
@@ -47,66 +55,65 @@ export default function MenuBar({ first, url, toggle }) {
         <div className={classes.header}>
             <AppBar position="static">
                 <Toolbar>
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
+                    <Drawer
+                        variant="temporary"
+                        anchor="left"
                         open={Boolean(anchorEl)}
                         onClose={() => setAnchorEl(false)}
                     >
-                        <Drawer
-                            variant="temporary"
-                            anchor="left"
-                            open={Boolean(anchorEl)}
-                            onClose={() => setAnchorEl(false)}
-                        >
-                            <List>
+                        <List className={classes.list}>
+                            <Link className={classes.link} to="/">
                                 <ListItem
                                     button
                                     onClick={() => setAnchorEl(false)}
                                 >
-                                    <Link className={classes.link} to="/">
-                                        <ListItemText primary="Profile"></ListItemText>
-                                    </Link>
+                                    <ListItemIcon>
+                                        <AccountCircleIcon></AccountCircleIcon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Profile"></ListItemText>
                                 </ListItem>
+                            </Link>
+                            <Link className={classes.link} to="/findpeople">
                                 <ListItem
                                     button
                                     onClick={() => {
                                         setAnchorEl(false);
                                     }}
                                 >
-                                    <Link
-                                        className={classes.link}
-                                        to="/findpeople"
-                                    >
-                                        <ListItemText primary="Search users"></ListItemText>
-                                    </Link>
+                                    <ListItemIcon>
+                                        <SearchIcon></SearchIcon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Search users"></ListItemText>
                                 </ListItem>
+                            </Link>
+                            <Link className={classes.link} to="/chatters">
                                 <ListItem
                                     button
                                     onClick={() => {
                                         setAnchorEl(false);
                                     }}
                                 >
-                                    <Link
-                                        className={classes.link}
-                                        to="/chatters"
-                                    >
-                                        <ListItemText primary="Chatters"></ListItemText>
-                                    </Link>
+                                    <ListItemIcon>
+                                        <ChatIcon></ChatIcon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Chatters"></ListItemText>
                                 </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        setAnchorEl(false);
-                                        logout();
-                                    }}
-                                >
-                                    <ListItemText primary="Logout"></ListItemText>
-                                </ListItem>
-                            </List>
-                        </Drawer>
-                    </Menu>
+                            </Link>
+                            <ListItem
+                                button
+                                onClick={() => {
+                                    setAnchorEl(false);
+                                    logout();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <MeetingRoomIcon></MeetingRoomIcon>
+                                </ListItemIcon>
+                                <ListItemText primary="Logout"></ListItemText>
+                            </ListItem>
+                        </List>
+                    </Drawer>
+
                     <IconButton
                         edge="start"
                         className={classes.menuButton}

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         width: 150,
         height: 150,
         alignSelf: "flex-end",
-        position: "absolute"
+        position: "absolute",
     },
     paper: {
         padding: 20,
@@ -38,7 +38,6 @@ export default function Profile({ first, last, url, bio, setUser, toggle }) {
                     onClick={toggle}
                     className={classes.avatar}
                     component="div"
-                    // sizes=""
                     src={url || "./missing.jpg"}
                 ></Avatar>
                 <BioEditor
