@@ -4,8 +4,8 @@ const ACTIONS = {
     DECLINE: "decline",
     RECENT_MESSAGES: "recent",
     NEW_MESSAGE: "new",
-    //
     ONLINE_USERS: "online",
+    //
     NEW_USER: "new user",
     USER_LEFT: "user left",
 };
@@ -46,6 +46,23 @@ export function Reducer(state = {}, action) {
         state = {
             ...state,
             messages: [...state.messages, action.newMessage],
+        };
+    } else if (action.type == ACTIONS.ONLINE_USERS) {
+        state = {
+            ...state,
+            onlineUsers: action.onlineUsers,
+        };
+    } else if (action.type == ACTIONS.NEW_USER) {
+        state = {
+            ...state,
+            onlineUsers: [...state.onlineUsers, action.newUser],
+        };
+    } else if (action.type == ACTIONS.USER_LEFT) {
+        state = {
+            ...state,
+            onlineUsers: state.onlineUsers.filter(
+                (userId) => userId.id != action.leftUser.user
+            ),
         };
     }
 

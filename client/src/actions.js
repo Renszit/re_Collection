@@ -8,7 +8,7 @@ const ACTIONS = {
     NEW_MESSAGE: "new",
     ONLINE_USERS: "online",
     NEW_USER: "new user",
-    USER_LEFT: "user left"
+    USER_LEFT: "user left",
 };
 
 export async function getWannabes() {
@@ -50,6 +50,7 @@ export async function newMessageIncoming(message) {
 }
 
 export async function currentOnlineUsers(users) {
+    console.log("users!!", users);
     return {
         type: ACTIONS.ONLINE_USERS,
         onlineUsers: users,
@@ -57,6 +58,7 @@ export async function currentOnlineUsers(users) {
 }
 
 export async function userJustJoined(user) {
+    console.log("user joined:", user);
     return {
         type: ACTIONS.NEW_USER,
         newUser: user,
@@ -64,6 +66,7 @@ export async function userJustJoined(user) {
 }
 
 export async function userLeft(user) {
+    console.log("user Id left:", user);
     return {
         type: ACTIONS.USER_LEFT,
         leftUser: user,

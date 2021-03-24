@@ -16,10 +16,15 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         padding: 20,
         display: "flex",
+        justifyContent: "center",
         flexDirection: "column",
-        width: 400,
+        alignItems: "center",
+        width: 300,
         position: "absolute",
         zIndex: 1,
+    },
+    button: {
+        margin: 10,
     },
 }));
 
@@ -48,7 +53,7 @@ export default function Uploader({ setUser, toggle }) {
     return (
         <Container maxWidth="xs">
             <Paper className={classes.paper} elevation={1}>
-                <Typography variant="headline" component="h1" color="initial">
+                <Typography variant="h5" color="initial">
                     upload your picture here
                 </Typography>
                 <input
@@ -61,6 +66,7 @@ export default function Uploader({ setUser, toggle }) {
                     onClick={() => handleClick()}
                     variant="contained"
                     color="default"
+                    className={classes.button}
                 >
                     upload
                 </Button>

@@ -375,7 +375,7 @@ server.listen(process.env.PORT || 3001, function () {
 let onlineUsers = {};
 
 io.on("connection", (socket) => {
-    console.log(`socket with id ${socket.id} just connected!`);
+    // console.log(`socket with id ${socket.id} just connected!`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
@@ -396,7 +396,7 @@ io.on("connection", (socket) => {
         db.getUserInfo(userId)
             .then(({ rows }) => {
                 // console.log("new user online!", rows);
-                socket.broadcast.emit("new user just joined", rows);
+                socket.broadcast.emit("new user just joined", rows[0]);
             })
             .catch((err) => console.log("error in emitting to users", err));
     }
@@ -432,6 +432,6 @@ io.on("connection", (socket) => {
         if (Object.values(onlineUsers).indexOf(userId) < 1) {
             socket.broadcast.emit("user left", { user: userId });
         }
-        console.log(`socket with the id ${socket.id} is now disconnected`);
+        // console.log(`socket with the id ${socket.id} is now disconnected`);
     });
 });
