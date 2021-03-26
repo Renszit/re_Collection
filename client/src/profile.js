@@ -2,6 +2,7 @@
 import BioEditor from "./bioEditor";
 import { Avatar, Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Friends from "./friends";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,6 +45,7 @@ export default function Profile({ first, last, url, bio, setUser, toggle }) {
                     bio={bio}
                     setUser={({ bio: arg }) => setUser({ bio: arg })}
                 />
+                <Friends />
             </Paper>
         </div>
     );

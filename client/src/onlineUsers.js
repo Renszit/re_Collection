@@ -24,7 +24,7 @@ export default function OnlineUsers() {
     const online = useSelector(
         (state) => state.onlineUsers && state.onlineUsers
     );
-
+    
     return (
         <div>
             <Paper className={classes.paper} elevation={1}>

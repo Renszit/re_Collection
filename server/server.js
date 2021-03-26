@@ -7,7 +7,7 @@ const csurf = require("csurf");
 const multer = require("multer");
 const cryptoRandomString = require("crypto-random-string");
 const uidSafe = require("uid-safe");
-
+const discogs = require("./discogs");
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
@@ -68,6 +68,8 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+
+app.use(discogs);
 
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -382,7 +384,7 @@ io.on("connection", (socket) => {
     const userId = socket.request.session.userId;
 
     onlineUsers[socket.id] = userId;
-    
+
     const onlineUserIds = Object.values(onlineUsers);
 
     db.getUsersByIds(onlineUserIds)

@@ -1,7 +1,7 @@
 import axios from "./axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ProfilePic from "./profilePic";
+
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     card: {
         maxWidth: 330,
         margin: 20,
-    }
+    },
 });
 
 export default function FindPeople() {

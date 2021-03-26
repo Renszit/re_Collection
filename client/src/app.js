@@ -7,8 +7,9 @@ import OtherProfile from "./otherProfile";
 import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findPeople";
 import Container from "@material-ui/core/Container";
-import Friends from "./friends";
+// import Friends from "./friends";
 import Chat from "./chat";
+
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -72,7 +73,6 @@ export default function App() {
                     )}
                 />
 
-                <Route path="/friends" render={() => <Friends />} />
                 <Route path="/findpeople" render={() => <FindPeople />} />
             </Container>
         </BrowserRouter>
