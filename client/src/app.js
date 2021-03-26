@@ -9,7 +9,7 @@ import FindPeople from "./findPeople";
 import Container from "@material-ui/core/Container";
 // import Friends from "./friends";
 import Chat from "./chat";
-
+import RecordSearch from "./recordsearch";
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -72,7 +72,7 @@ export default function App() {
                         />
                     )}
                 />
-
+                <Route path="/recordsearch" component={RecordSearch} />
                 <Route path="/findpeople" render={() => <FindPeople />} />
             </Container>
         </BrowserRouter>

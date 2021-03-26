@@ -9,6 +9,7 @@ const ACTIONS = {
     ONLINE_USERS: "online",
     NEW_USER: "new user",
     USER_LEFT: "user left",
+    RECORD_SEARCH: "search records",
 };
 
 export async function getWannabes() {
@@ -70,5 +71,14 @@ export async function userLeft(user) {
     return {
         type: ACTIONS.USER_LEFT,
         leftUser: user,
+    };
+}
+
+export async function getRecord(record) {
+    const { data } = await axios.get(`/searchrecord/${record}`);
+    console.log(data);
+    return {
+        type: ACTIONS.RECORD_SEARCH,
+        searchResults: data.results,
     };
 }

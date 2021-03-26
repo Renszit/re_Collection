@@ -5,9 +5,9 @@ const ACTIONS = {
     RECENT_MESSAGES: "recent",
     NEW_MESSAGE: "new",
     ONLINE_USERS: "online",
-    //
     NEW_USER: "new user",
     USER_LEFT: "user left",
+    RECORD_SEARCH: "search records",
 };
 
 export function Reducer(state = {}, action) {
@@ -63,6 +63,11 @@ export function Reducer(state = {}, action) {
             onlineUsers: state.onlineUsers.filter(
                 (userId) => userId.id != action.leftUser.user
             ),
+        };
+    } else if (action.type == ACTIONS.RECORD_SEARCH) {
+        state = {
+            ...state,
+            searchResults: action.searchResults,
         };
     }
 

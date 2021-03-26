@@ -86,6 +86,19 @@ export default function MenuBar({ first, url, toggle }) {
                                     <ListItemText primary="Search users"></ListItemText>
                                 </ListItem>
                             </Link>
+                            <Link className={classes.link} to="/recordsearch">
+                                <ListItem
+                                    button
+                                    onClick={() => {
+                                        setAnchorEl(false);
+                                    }}
+                                >
+                                    <ListItemIcon>
+                                        <SearchIcon></SearchIcon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Search records"></ListItemText>
+                                </ListItem>
+                            </Link>
                             <Link className={classes.link} to="/chatters">
                                 <ListItem
                                     button
