@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,16 +22,13 @@ const useStyles = makeStyles((theme) => ({
     input: {
         margin: 10,
     },
-    button: {
-        margin: 20,
-    },
     link: {
         fontSize: 10,
         textDecoration: "none",
     },
 }));
 
-export default function Registration() {
+export default function Registration({ theme }) {
     const classes = useStyles();
 
     const [form, setForm] = useState({});
@@ -38,11 +36,10 @@ export default function Registration() {
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-        console.log(form);
+        // console.log(form);
     };
 
     const handleClick = () => {
-        console.log(form);
         axios
             .post("/register", form)
             .then((res) => {
@@ -59,26 +56,24 @@ export default function Registration() {
 
     return (
         <div>
-            <h1>Registration</h1>
-            {error && <p>something broke</p>}
+            <Typography className={theme.title} variant="h4">
+                Registration
+            </Typography>
             <div className={classes.form}>
                 <TextField
                     className={classes.input}
-                    id="standard-basic"
                     label="first"
                     name="first"
                     onChange={(e) => handleChange(e)}
                 />
                 <TextField
                     className={classes.input}
-                    id="standard-basic"
                     label="last"
                     name="last"
                     onChange={(e) => handleChange(e)}
                 />
                 <TextField
                     className={classes.input}
-                    id="standard-basic"
                     label="email"
                     name="email"
                     type="email"
@@ -86,16 +81,20 @@ export default function Registration() {
                 />
                 <TextField
                     className={classes.input}
-                    id="standard-basic"
                     label="password"
                     name="password"
                     type="password"
                     onChange={(e) => handleChange(e)}
                 />
+                {error && (
+                    <Typography variant="caption" color="secondary">
+                        something went wrong
+                    </Typography>
+                )}
                 <Button
                     size="small"
-                    className={classes.button}
-                    variant="contained"
+                    className={theme.button}
+                    variant="outlined"
                     color="primary"
                     onClick={(e) => handleClick(e)}
                 >

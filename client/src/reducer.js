@@ -8,6 +8,7 @@ const ACTIONS = {
     NEW_USER: "new user",
     USER_LEFT: "user left",
     RECORD_SEARCH: "search records",
+    SELECTED_RECORD: "record selected",
 };
 
 export function Reducer(state = {}, action) {
@@ -68,6 +69,11 @@ export function Reducer(state = {}, action) {
         state = {
             ...state,
             searchResults: action.searchResults,
+        };
+    } else if (action.type == ACTIONS.SELECTED_RECORD) {
+        state = {
+            ...state,
+            selectedRecord: action.recordSelection,
         };
     }
 

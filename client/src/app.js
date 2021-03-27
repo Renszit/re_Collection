@@ -10,6 +10,12 @@ import Container from "@material-ui/core/Container";
 // import Friends from "./friends";
 import Chat from "./chat";
 import RecordSearch from "./recordsearch";
+import UserSelection from "./userSelection";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+    
+});
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -72,7 +78,8 @@ export default function App() {
                         />
                     )}
                 />
-                <Route path="/recordsearch" component={RecordSearch} />
+                <Route path="/userselection" render={() => <UserSelection />} />
+                <Route path="/recordsearch" render={() => <RecordSearch />} />
                 <Route path="/findpeople" render={() => <FindPeople />} />
             </Container>
         </BrowserRouter>

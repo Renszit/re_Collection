@@ -3,8 +3,18 @@ import { useEffect, useState } from "react";
 import ProfilePic from "./profilePic";
 import FriendButton from "./friendButton";
 import Typography from "@material-ui/core/Typography";
+import { Paper, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(() => ({
+    paper: {
+        padding: 20,
+        display: "flex",
+        flexDirection: "column",
+    },
+}));
 
 export default function OtherProfile({ match, history }) {
+    const classes = useStyles();
     const [otherUser, setOtherUser] = useState({});
 
     useEffect(() => {
@@ -27,13 +37,19 @@ export default function OtherProfile({ match, history }) {
 
     return (
         <div>
-            <Typography variant="h3" color="initial">
-                {otherUser.first} {otherUser.last}
-            </Typography>
-            <ProfilePic width={200} height={200} url={otherUser.url} />
-
-            <p>{otherUser.bio}</p>
-            <FriendButton id={match.params.id} />
+            <Paper className={classes.paper} elevation={1}>
+                <Typography variant="h2" color="initial">
+                    {otherUser.first} {otherUser.last}
+                </Typography>
+                <ProfilePic
+                    width={200}
+                    height={200}
+                    url={otherUser.url}
+                    className={classes.profilepic}
+                />
+                <p>{otherUser.bio}</p>
+                <FriendButton id={match.params.id} />
+            </Paper>
         </div>
     );
 }

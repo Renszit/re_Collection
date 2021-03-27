@@ -4,7 +4,7 @@ import axios from "./axios";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ResetPassword() {
+export default function ResetPassword({ theme }) {
     const classes = useStyles();
     const [state, setState] = useState(1);
     const [form, setForm] = useState({});
@@ -78,7 +78,7 @@ export default function ResetPassword() {
     return (
         <div>
             <h1>Reset Password</h1>
-            {error && <p>something broke</p>}
+
             {state == 1 && (
                 <div className={classes.form}>
                     <TextField
@@ -89,10 +89,15 @@ export default function ResetPassword() {
                         type="email"
                         onChange={(e) => handleChange(e)}
                     />
+                    {error && (
+                        <Typography variant="caption" color="secondary">
+                            something went wrong
+                        </Typography>
+                    )}
                     <Button
                         size="small"
-                        className={classes.button}
-                        variant="contained"
+                        className={theme.button}
+                        variant="outlined"
                         color="primary"
                         onClick={(e) => handleClick(e)}
                     >

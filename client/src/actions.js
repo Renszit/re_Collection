@@ -10,6 +10,7 @@ const ACTIONS = {
     NEW_USER: "new user",
     USER_LEFT: "user left",
     RECORD_SEARCH: "search records",
+    SELECTED_RECORD: "record selected",
 };
 
 export async function getWannabes() {
@@ -74,11 +75,20 @@ export async function userLeft(user) {
     };
 }
 
-export async function getRecord(record) {
-    const { data } = await axios.get(`/searchrecord/${record}`);
+export async function getRecord(record, type) {
+    const { data } = await axios.get(`/searchrecord/${record}/${type}`);
     console.log(data);
     return {
         type: ACTIONS.RECORD_SEARCH,
         searchResults: data.results,
+    };
+}
+
+export async function getSelection(resource_url) {
+    const { data } = await axios.get(resource_url);
+    console.log("get selection",data);
+    return {
+        type: ACTIONS.SELECTED_RECORD,
+        recordSelection: data,
     };
 }

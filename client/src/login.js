@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
     input: {
         margin: 10,
     },
-    button: {
-        margin: 20,
-    },
     linkContainer: {
         display: "flex",
         flexDirection: "column",
@@ -34,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Login() {
+export default function Login({ theme }) {
     const classes = useStyles();
     const [form, setForm] = useState({});
     const [error, setError] = useState(false);
@@ -63,7 +60,6 @@ export default function Login() {
     return (
         <div>
             <h1>Login</h1>
-            {error && <p>something broke</p>}
             <div className={classes.form}>
                 <TextField
                     className={classes.input}
@@ -81,10 +77,15 @@ export default function Login() {
                     type="password"
                     onChange={(e) => handleChange(e)}
                 />
+                {error && (
+                    <Typography variant="caption" color="secondary">
+                        something went wrong
+                    </Typography>
+                )}
                 <Button
                     size="small"
-                    className={classes.button}
-                    variant="contained"
+                    className={theme.button}
+                    variant="outlined"
                     color="primary"
                     onClick={(e) => handleClick(e)}
                 >

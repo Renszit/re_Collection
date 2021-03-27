@@ -39,9 +39,11 @@ export default function Uploader({ setUser, toggle }) {
     const handleClick = () => {
         const formData = new FormData();
         formData.append("image", image);
+        // console.log("formData", formData, image);
         axios
             .post("/upload", formData)
             .then(({ data }) => {
+                // console.log(formData);
                 setUser(data);
                 toggle();
             })

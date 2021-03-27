@@ -103,13 +103,6 @@ export default function FindPeople() {
                             </Link>
                         </CardActions>
                     </Card>
-
-                    {/* <Link to={`/users/${user.id}`}>
-                        <ProfilePic width={60} height={60} url={user.url} />
-                        <Typography variant="body1" color="initial">
-                            {user.first} {user.last}
-                        </Typography>
-                    </Link> */}
                 </div>
             ))}
         </div>
