@@ -5,6 +5,7 @@ import {
     currentOnlineUsers,
     userJustJoined,
     userLeft,
+    newPrivateMessage,
 } from "./actions";
 
 export let socket;
@@ -33,5 +34,13 @@ export const init = (store) => {
     socket.on("user left", (user) => {
         store.dispatch(userLeft(user));
         console.log("userId left:", user.user);
+    });
+
+    socket.on("private message incoming", (message) => {
+        store.dispatch(newPrivateMessage(message));
+    });
+
+    socket.on("sent message", (message) => {
+        store.dispatch(newPrivateMessage(message));
     });
 };

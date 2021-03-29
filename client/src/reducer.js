@@ -9,9 +9,10 @@ const ACTIONS = {
     USER_LEFT: "user left",
     RECORD_SEARCH: "search records",
     SELECTED_RECORD: "record selected",
+    NEW_PRIVATE_MESSAGE: "private message",
 };
 
-export function Reducer(state = {}, action) {
+export function Reducer(state = { private: [{}] }, action) {
     if (action.type == ACTIONS.GET_LIST) {
         state = {
             ...state,
@@ -74,6 +75,11 @@ export function Reducer(state = {}, action) {
         state = {
             ...state,
             selectedRecord: action.recordSelection,
+        };
+    } else if (action.type == ACTIONS.NEW_PRIVATE_MESSAGE) {
+        state = {
+            ...state,
+            private: [...state.private, action.message],
         };
     }
 

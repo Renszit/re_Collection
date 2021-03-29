@@ -11,11 +11,9 @@ import Container from "@material-ui/core/Container";
 import Chat from "./chat";
 import RecordSearch from "./recordsearch";
 import UserSelection from "./userSelection";
-import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() => ({
-    
-});
+
+// const useStyles = makeStyles(() => ({});
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -38,11 +36,7 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <MenuBar
-                first={user.first}
-                url={user.url}
-                toggle={() => toggleUploader()}
-            />
+            <MenuBar first={user.first} url={user.url} />
             {uploader && (
                 <Uploader
                     toggle={() => toggleUploader()}

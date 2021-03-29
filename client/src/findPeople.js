@@ -4,27 +4,14 @@ import { Link } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import {
-    Paper,
-    Card,
-    CardActionArea,
-    CardMedia,
-    CardContent,
-    CardActions,
-    Button,
-} from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
     },
-    media: {
-        height: 140,
-    },
-    card: {
-        maxWidth: 330,
-        margin: 20,
-    },
+
+
 });
 
 export default function FindPeople() {
@@ -79,30 +66,7 @@ export default function FindPeople() {
 
             {results.map((user, index) => (
                 <div key={index}>
-                    <Card className={classes.card}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image={user.url || "./missing.jpg"}
-                                title={user.first}
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5">
-                                    {user.first} {user.last}
-                                </Typography>
-                                <Typography component="Lizard">
-                                    {user.bio}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                            <Link to={`/users/${user.id}`}>
-                                <Button size="small" color="primary">
-                                    see user
-                                </Button>
-                            </Link>
-                        </CardActions>
-                    </Card>
+                    <Link to={`/users/${user.id}`}>{user.first}</Link>
                 </div>
             ))}
         </div>

@@ -118,6 +118,8 @@ module.exports.getWannabes = (id) => {
     return db.query(q, param);
 };
 
+//messaging
+
 module.exports.recentMessages = () => {
     const q = `(SELECT chatters.sender_id, chatters.message, chatters.created_at, users.url, users.first, users.last 
     FROM chatters
@@ -147,3 +149,23 @@ module.exports.getUsersByIds = (arrayOfIds) => {
     const query = `SELECT id, first, last, url FROM users WHERE id = ANY($1)`;
     return db.query(query, [arrayOfIds]);
 };
+
+// private messaging
+
+module.exports.newPrivateMessage = (sender_id, recipient_id, message) => {
+    const q = `INSERT INTO userchat (sender_id, recipient_id, message) VALUES ($1,$2,$3) returning id, created_at`;
+    const params = [sender_id, recipient_id, message];
+    return db.query(q, params);
+};
+
+// module.exports.getPrivateMessages = (sender_id, recipient_id) => {
+//     const q = `(SELECT userchat.sender_id, userchat.message, userchat.created_at, users.url, users.first, users.last 
+//     FROM chatters WHERE (userchat.sender_id = $1 AND userchat.recipient_id = $2) OR (userchat.recipient_id = $1 AND userchat.sender_id = $2)
+//     JOIN users 
+//     ON userchat.sender_id = users.id
+//     LIMIT 10) 
+//     ORDER BY chatters.created_at DESC
+//     `;
+//     const params = [sender_id, recipient_id];
+//     return db.query(q, params);
+// };

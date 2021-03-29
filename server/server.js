@@ -273,16 +273,20 @@ server.listen(process.env.PORT || 3001, function () {
 let onlineUsers = {};
 
 io.on("connection", (socket) => {
-    // console.log(`socket with id ${socket.id} just connected!`);
+    console.log(`socket with id ${socket.id} just connected!`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
     const userId = socket.request.session.userId;
+    // socket.join(userId);
 
-    onlineUsers[socket.id] = userId;
+    console.log("these users are online:", onlineUsers);
 
-    const onlineUserIds = Object.values(onlineUsers);
+    // onlineUsers[socket.id] = userId;
+    onlineUsers[userId] = socket.id;
 
+    const onlineUserIds = Object.keys(onlineUsers);
+    // remove duplicates!!!! filter
     db.getUsersByIds(onlineUserIds)
         .then(({ rows }) => {
             // console.log("online users:", rows);
@@ -323,6 +327,36 @@ io.on("connection", (socket) => {
                     );
             })
             .catch((err) => console.log("error in posting new image", err));
+    });
+
+    socket.on("private message", (message) => {
+        // console.log(message);
+        db.newPrivateMessage(userId, message.id, message.message)
+            .then(() => {
+                db.getUserInfo(userId).then(({ rows }) => {
+                    // console.log(rows);
+
+                    socket.emit("sent message", {
+                        message: message.message,
+                        id: rows[0].id,
+                        first: rows[0].first,
+                        last: rows[0].last,
+                        url: rows[0].url,
+                    });
+
+                    io.to(onlineUsers[message.id]).emit(
+                        "private message incoming",
+                        {
+                            message: message.message,
+                            id: rows[0].id,
+                            first: rows[0].first,
+                            last: rows[0].last,
+                            url: rows[0].url,
+                        }
+                    );
+                });
+            })
+            .catch((err) => console.log("error in new private message", err));
     });
 
     socket.on("disconnect", function () {

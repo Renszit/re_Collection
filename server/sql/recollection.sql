@@ -34,6 +34,15 @@ CREATE TABLE chatters(
   message VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS userchat;
+CREATE TABLE userchat(
+  id SERIAL PRIMARY KEY,
+  sender_id INT REFERENCES users(id) NOT NULL,
+  recipient_id INT REFERENCES users(id) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  message VARCHAR(255)
+);
+
 INSERT INTO chatters (sender_id, message) VALUES (2, 'hello');
 INSERT INTO chatters (sender_id, message) VALUES (4, 'hi');
 INSERT INTO chatters (sender_id, message) VALUES (9, 'hola');

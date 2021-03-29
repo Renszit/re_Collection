@@ -11,6 +11,7 @@ const ACTIONS = {
     USER_LEFT: "user left",
     RECORD_SEARCH: "search records",
     SELECTED_RECORD: "record selected",
+    NEW_PRIVATE_MESSAGE: "private message",
 };
 
 export async function getWannabes() {
@@ -86,9 +87,17 @@ export async function getRecord(record, type) {
 
 export async function getSelection(resource_url) {
     const { data } = await axios.get(resource_url);
-    console.log("get selection",data);
+    console.log("get selection", data);
     return {
         type: ACTIONS.SELECTED_RECORD,
         recordSelection: data,
+    };
+}
+
+export async function newPrivateMessage(message) {
+    // console.log("message 2 times", message);
+    return {
+        type: ACTIONS.NEW_PRIVATE_MESSAGE,
+        message: message,
     };
 }

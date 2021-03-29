@@ -1,9 +1,11 @@
 import axios from "./axios";
 import { useEffect, useState } from "react";
-import ProfilePic from "./profilePic";
+
 import FriendButton from "./friendButton";
 import Typography from "@material-ui/core/Typography";
-import { Paper, makeStyles } from "@material-ui/core";
+import { Paper, makeStyles, Button } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
+import UserChat from "./userChat";
 
 const useStyles = makeStyles(() => ({
     paper: {
@@ -12,10 +14,11 @@ const useStyles = makeStyles(() => ({
         flexDirection: "column",
     },
 }));
-
+//1
 export default function OtherProfile({ match, history }) {
     const classes = useStyles();
     const [otherUser, setOtherUser] = useState({});
+    const [modal, setModal] = useState(false);
 
     useEffect(() => {
         axios
@@ -41,15 +44,26 @@ export default function OtherProfile({ match, history }) {
                 <Typography variant="h2" color="initial">
                     {otherUser.first} {otherUser.last}
                 </Typography>
-                <ProfilePic
-                    width={200}
-                    height={200}
-                    url={otherUser.url}
+                <Avatar
+                    alt={otherUser.first}
                     className={classes.profilepic}
-                />
+                    component="div"
+                    src={otherUser.url || "./missing.jpg"}
+                ></Avatar>
                 <p>{otherUser.bio}</p>
-                <FriendButton id={match.params.id} />
+                <div>
+                    <FriendButton id={match.params.id} />
+                    <Button
+                        onClick={() => setModal(!modal)}
+                        variant="outlined"
+                        color="default"
+                    >
+                        chat
+                    </Button>
+                </div>
             </Paper>
+            
+            {modal && <UserChat id={match.params.id} />}
         </div>
     );
 }

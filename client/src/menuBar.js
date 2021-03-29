@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MenuBar({ first, url, toggle }) {
+export default function MenuBar({ first, url }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(false);
 
@@ -141,10 +141,10 @@ export default function MenuBar({ first, url, toggle }) {
                     <Typography variant="h6" className={classes.title}>
                         Hi {first}! Welcome to recollection.
                     </Typography>
+
                     <Avatar
                         alt={first}
                         component="div"
-                        onClick={toggle}
                         src={url || "./missing.jpg"}
                     ></Avatar>
                 </Toolbar>
