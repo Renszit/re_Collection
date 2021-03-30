@@ -158,14 +158,25 @@ module.exports.newPrivateMessage = (sender_id, recipient_id, message) => {
     return db.query(q, params);
 };
 
-// module.exports.getPrivateMessages = (sender_id, recipient_id) => {
-//     const q = `(SELECT userchat.sender_id, userchat.message, userchat.created_at, users.url, users.first, users.last 
-//     FROM chatters WHERE (userchat.sender_id = $1 AND userchat.recipient_id = $2) OR (userchat.recipient_id = $1 AND userchat.sender_id = $2)
+module.exports.getPrivateMessages = (sender_id, recipient_id) => {
+    const q = `(SELECT userchat.sender_id, userchat.message, userchat.created_at, users.url, users.first, users.last 
+        FROM userchat 
+        JOIN users 
+        ON userchat.sender_id = users.id
+        WHERE userchat.sender_id = ($1) AND userchat.recipient_id = ($2)
+        OR userchat.recipient_id = ($1) AND userchat.sender_id = ($2)
+    LIMIT 10) 
+    ORDER BY userchat.created_at DESC
+    `;
+    const params = [sender_id, recipient_id];
+    return db.query(q, params);
+};
+
+// const q = `(SELECT chatters.sender_id, chatters.message, chatters.created_at, users.url, users.first, users.last 
+//     FROM chatters
 //     JOIN users 
-//     ON userchat.sender_id = users.id
+//     ON chatters.sender_id = users.id
 //     LIMIT 10) 
 //     ORDER BY chatters.created_at DESC
 //     `;
-//     const params = [sender_id, recipient_id];
-//     return db.query(q, params);
-// };
+// WHERE (userchat.sender_id = $1 AND userchat.recipient_id = $2) OR (userchat.recipient_id = $1 AND userchat.sender_id = $2)

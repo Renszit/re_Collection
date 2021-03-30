@@ -10,6 +10,7 @@ const ACTIONS = {
     RECORD_SEARCH: "search records",
     SELECTED_RECORD: "record selected",
     NEW_PRIVATE_MESSAGE: "private message",
+    RECENT_PRIVATES: "recent privates",
 };
 
 export function Reducer(state = { private: [{}] }, action) {
@@ -79,7 +80,7 @@ export function Reducer(state = { private: [{}] }, action) {
     } else if (action.type == ACTIONS.NEW_PRIVATE_MESSAGE) {
         state = {
             ...state,
-            private: [...state.private, action.message],
+            private: action.message.reverse(),
         };
     }
 

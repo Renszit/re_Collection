@@ -281,12 +281,12 @@ io.on("connection", (socket) => {
     // socket.join(userId);
 
     console.log("these users are online:", onlineUsers);
-
     // onlineUsers[socket.id] = userId;
     onlineUsers[userId] = socket.id;
-
-    const onlineUserIds = Object.keys(onlineUsers);
-    // remove duplicates!!!! filter
+    
+    const onlineUserIds = [...new Set(Object.keys(onlineUsers))];
+ 
+    console.log("single id's are online:", onlineUserIds);
     db.getUsersByIds(onlineUserIds)
         .then(({ rows }) => {
             // console.log("online users:", rows);
@@ -294,7 +294,7 @@ io.on("connection", (socket) => {
         })
         .catch((err) => console.log("error in getting users by id's", err));
 
-    if (onlineUserIds.filter((id) => id == userId).length == 1) {
+    if (onlineUsers.filter((id) => id == userId).length == 1) {
         db.getUserInfo(userId)
             .then(({ rows }) => {
                 // console.log("new user online!", rows);
@@ -333,26 +333,13 @@ io.on("connection", (socket) => {
         // console.log(message);
         db.newPrivateMessage(userId, message.id, message.message)
             .then(() => {
-                db.getUserInfo(userId).then(({ rows }) => {
+                db.getPrivateMessages(userId, message.id).then(({ rows }) => {
                     // console.log(rows);
-
-                    socket.emit("sent message", {
-                        message: message.message,
-                        id: rows[0].id,
-                        first: rows[0].first,
-                        last: rows[0].last,
-                        url: rows[0].url,
-                    });
-
+                    console.log(rows);
+                    socket.emit("sent message", rows);
                     io.to(onlineUsers[message.id]).emit(
                         "private message incoming",
-                        {
-                            message: message.message,
-                            id: rows[0].id,
-                            first: rows[0].first,
-                            last: rows[0].last,
-                            url: rows[0].url,
-                        }
+                        rows
                     );
                 });
             })

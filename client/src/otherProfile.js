@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 import FriendButton from "./friendButton";
 import Typography from "@material-ui/core/Typography";
-import { Paper, makeStyles, Button } from "@material-ui/core";
+import { Paper, makeStyles } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
-import UserChat from "./userChat";
+// import UserChat from "./userChat";
 
 const useStyles = makeStyles(() => ({
     paper: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 export default function OtherProfile({ match, history }) {
     const classes = useStyles();
     const [otherUser, setOtherUser] = useState({});
-    const [modal, setModal] = useState(false);
+    // const [modal, setModal] = useState(false);
 
     useEffect(() => {
         axios
@@ -53,17 +53,8 @@ export default function OtherProfile({ match, history }) {
                 <p>{otherUser.bio}</p>
                 <div>
                     <FriendButton id={match.params.id} />
-                    <Button
-                        onClick={() => setModal(!modal)}
-                        variant="outlined"
-                        color="default"
-                    >
-                        chat
-                    </Button>
                 </div>
             </Paper>
-            
-            {modal && <UserChat id={match.params.id} />}
         </div>
     );
 }

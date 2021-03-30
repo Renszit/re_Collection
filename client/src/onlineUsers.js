@@ -1,6 +1,7 @@
-import { Paper, Avatar, makeStyles, Badge} from "@material-ui/core";
+import { Paper, Avatar, makeStyles, Badge } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import UserChat from "./userChat";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,10 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OnlineUsers() {
     const classes = useStyles();
+    const [modal, setModal] = useState(false);
     const online = useSelector(
         (state) => state.onlineUsers && state.onlineUsers
     );
-    
+    //filter online users here so only one appears on screen
+
     return (
         <div>
             <Paper className={classes.paper} elevation={1}>
@@ -41,14 +44,20 @@ export default function OnlineUsers() {
                                     horizontal: "right",
                                 }}
                             >
-                                <Link to={`/users/${user.id}`}>
-                                    <Avatar
-                                        alt={user.first}
-                                        component="div"
-                                        src={user.url}
-                                    ></Avatar>
-                                </Link>
+                                <Avatar
+                                    onClick={() => {
+                                        if (modal == false) {
+                                            setModal(user.id);
+                                        } else {
+                                            setModal(false);
+                                        }
+                                    }}
+                                    alt={user.first || "anon"}
+                                    component="div"
+                                    src={user.url || "./missing.jpg"}
+                                ></Avatar>
                             </Badge>
+                            {modal == user.id && <UserChat id={user.id} />}
                         </div>
                     ))}
             </Paper>
