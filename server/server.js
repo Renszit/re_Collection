@@ -271,7 +271,7 @@ server.listen(process.env.PORT || 3001, function () {
 });
 
 let onlineUsers = {};
-
+let userCheck = {};
 io.on("connection", (socket) => {
     console.log(`socket with id ${socket.id} just connected!`);
     if (!socket.request.session.userId) {
@@ -283,9 +283,11 @@ io.on("connection", (socket) => {
     console.log("these users are online:", onlineUsers);
     // onlineUsers[socket.id] = userId;
     onlineUsers[userId] = socket.id;
-    
+    userCheck[socket.id] = userId;
+
     const onlineUserIds = [...new Set(Object.keys(onlineUsers))];
- 
+    const usersNumberCheck = Object.values(userCheck);
+
     console.log("single id's are online:", onlineUserIds);
     db.getUsersByIds(onlineUserIds)
         .then(({ rows }) => {
@@ -293,8 +295,11 @@ io.on("connection", (socket) => {
             socket.emit("online users", rows);
         })
         .catch((err) => console.log("error in getting users by id's", err));
+    console.log("online user check 1:,", usersNumberCheck);
 
-    if (onlineUsers.filter((id) => id == userId).length == 1) {
+    if (usersNumberCheck.filter((id) => id == userId).length == 1) {
+        console.log("online user check 2:,", usersNumberCheck);
+        // console.log("ff checken",onlineUserCheck.filter((id) => id == userId).length);
         db.getUserInfo(userId)
             .then(({ rows }) => {
                 // console.log("new user online!", rows);
@@ -347,8 +352,8 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", function () {
-        delete onlineUsers[socket.id];
-        if (Object.values(onlineUsers).indexOf(userId) < 1) {
+        delete userCheck[socket.id];
+        if (Object.values(userCheck).indexOf(userId) < 1) {
             socket.broadcast.emit("user left", { user: userId });
         }
         // console.log(`socket with the id ${socket.id} is now disconnected`);
