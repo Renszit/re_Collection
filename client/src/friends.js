@@ -1,8 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getWannabes, declineFriend, acceptFriend } from "./actions";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 
-export default function Friends() {
+const useStyles = makeStyles(() => ({
+    image: {
+        width: 300
+        
+    },
+}));
+
+export default function Friends({ theme }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
 
     const wannabe = useSelector(
@@ -30,12 +40,16 @@ export default function Friends() {
             <h1>friends</h1>
             {friends.map((friend, index) => (
                 <div key={index}>
-                    <h1>
-                        {friend.first} {friend.last}
-                    </h1>
-                    <button onClick={() => dispatch(declineFriend(friend.id))}>
+                    <h1>{friend.first}</h1>
+                    <img className={classes.image} src={friend.url}></img>
+                    <Button
+                        className={theme.button}
+                        variant="outlined"
+                        color="default"
+                        onClick={() => dispatch(declineFriend(friend.id))}
+                    >
                         unfriend
-                    </button>
+                    </Button>
                 </div>
             ))}
 

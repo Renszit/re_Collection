@@ -43,4 +43,8 @@ export const init = (store) => {
     socket.on("sent message", (message) => {
         store.dispatch(newPrivateMessage(message));
     });
+
+    socket.on("recent messages incoming", (message) => {
+        store.dispatch(newPrivateMessage(message));
+    });
 };

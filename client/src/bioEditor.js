@@ -3,9 +3,10 @@ import axios from "./axios";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { Paper } from "@material-ui/core";
 // import Card from "@material-ui/core/Card";
 
-export default function BioEditor({ bio, setUser }) {
+export default function BioEditor({ bio, setUser, theme }) {
     const [textAreaVisible, setTextArea] = useState(false);
     const [buttonValue, setButtonValue] = useState("Edit bio");
     const [temp, setTemp] = useState({});
@@ -33,30 +34,36 @@ export default function BioEditor({ bio, setUser }) {
 
     const handleChange = (e) => {
         setTemp({ bio: e.target.value });
-        console.log(temp);
+        // console.log(temp);
     };
 
     return (
         <div>
-            {error && <p>something broke</p>}
-            <Typography variant="h5" color="initial">
-                {bio}
+            <Typography className={theme.title} variant="h5" color="initial">
+                {bio || "add a bio here"}
             </Typography>
+
             {textAreaVisible && (
                 <TextField
                     id="textfield"
                     label="bio"
                     size="large"
-                    fullWidth
+                    // fullWidth
                     onChange={(e) => handleChange(e)}
                 />
             )}
+            {error && (
+                <Typography variant="caption" color="secondary">
+                    something went wrong
+                </Typography>
+            )}
             {!textAreaVisible && (
                 <Button
+                    className={theme.button}
                     onClick={() => {
                         setTextArea(!textAreaVisible);
                     }}
-                    variant="contained"
+                    variant="outlined"
                     color="default"
                 >
                     {buttonValue}
@@ -67,10 +74,10 @@ export default function BioEditor({ bio, setUser }) {
                     onClick={() => {
                         handleClick();
                     }}
-                    variant="contained"
+                    variant="outlined"
                     color="default"
                 >
-                    send this to the cloud
+                    Send
                 </Button>
             )}
         </div>

@@ -272,29 +272,33 @@ server.listen(process.env.PORT || 3001, function () {
 
 let onlineUsers = {};
 let userCheck = {};
+
 io.on("connection", (socket) => {
     console.log(`socket with id ${socket.id} just connected!`);
+
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
-    const userId = socket.request.session.userId;
-    // socket.join(userId);
 
-    console.log("these users are online:", onlineUsers);
-    // onlineUsers[socket.id] = userId;
+    const userId = socket.request.session.userId;
+
+    // console.log("these users are online:", onlineUsers);
+
     onlineUsers[userId] = socket.id;
     userCheck[socket.id] = userId;
 
-    const onlineUserIds = [...new Set(Object.keys(onlineUsers))];
-    const usersNumberCheck = Object.values(userCheck);
+    const onlineUserIds = Object.keys(onlineUsers);
+    const usersNumberCheck = [...new Set(Object.values(userCheck))];
 
     console.log("single id's are online:", onlineUserIds);
+
     db.getUsersByIds(onlineUserIds)
         .then(({ rows }) => {
             // console.log("online users:", rows);
             socket.emit("online users", rows);
         })
         .catch((err) => console.log("error in getting users by id's", err));
+
     console.log("online user check 1:,", usersNumberCheck);
 
     if (usersNumberCheck.filter((id) => id == userId).length == 1) {
@@ -334,10 +338,18 @@ io.on("connection", (socket) => {
             .catch((err) => console.log("error in posting new image", err));
     });
 
+    socket.on("get recent private messages", (user) => {
+        db.getPrivateMessages(userId, user.id).then(({ rows }) => {
+            console.log(rows);
+            socket.emit("recent messages incoming", rows);
+        });
+    });
+
     socket.on("private message", (message) => {
         // console.log(message);
         db.newPrivateMessage(userId, message.id, message.message)
             .then(() => {
+                //////changee
                 db.getPrivateMessages(userId, message.id).then(({ rows }) => {
                     // console.log(rows);
                     console.log(rows);

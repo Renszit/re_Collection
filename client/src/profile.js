@@ -19,20 +19,21 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         padding: 20,
-        height: "100vh",
+        // height: "100vh",
         display: "flex",
         flexDirection: "column",
+        marginBottom: 10,
     },
 }));
 
-export default function Profile({ first, last, url, bio, setUser, toggle }) {
+export default function Profile({ first, url, bio, setUser, toggle, theme }) {
     const classes = useStyles();
 
     return (
         <div>
             <Paper className={classes.paper} elevation={1}>
                 <Typography variant="h4" component="h1">
-                    Profile of {first} {last}
+                    Welcome {first}!
                 </Typography>
                 <Avatar
                     alt={first}
@@ -42,10 +43,13 @@ export default function Profile({ first, last, url, bio, setUser, toggle }) {
                     src={url || "./missing.jpg"}
                 ></Avatar>
                 <BioEditor
+                    theme={theme}
                     bio={bio}
                     setUser={({ bio: arg }) => setUser({ bio: arg })}
                 />
-                <Friends />
+            </Paper>
+            <Paper className={classes.paper}>
+                <Friends theme={theme} />
             </Paper>
         </div>
     );

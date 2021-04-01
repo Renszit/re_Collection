@@ -9,13 +9,30 @@ import FindPeople from "./findPeople";
 import Container from "@material-ui/core/Container";
 // import Friends from "./friends";
 import Chat from "./chat";
+import { makeStyles } from "@material-ui/core/styles";
 import RecordSearch from "./recordsearch";
 import UserSelection from "./userSelection";
 
-
-// const useStyles = makeStyles(() => ({});
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        padding: theme.spacing(1),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+    },
+    button: {
+        margin: 10,
+    },
+    title: {
+        margin: 10,
+        color: "#403D58",
+    },
+    headText: {
+        color: "#403D58",
+    },
+}));
 
 export default function App() {
+    const classes = useStyles();
     const [user, setUser] = useState({});
     const [uploader, setUploader] = useState(false);
 
@@ -49,6 +66,7 @@ export default function App() {
                     path="/"
                     render={() => (
                         <Profile
+                            theme={classes}
                             toggle={() => toggleUploader()}
                             first={user.first}
                             last={user.last}
@@ -72,9 +90,18 @@ export default function App() {
                         />
                     )}
                 />
-                <Route path="/userselection" render={() => <UserSelection />} />
-                <Route path="/recordsearch" render={() => <RecordSearch />} />
-                <Route path="/findpeople" render={() => <FindPeople />} />
+                <Route
+                    path="/userselection"
+                    render={() => <UserSelection theme={classes} />}
+                />
+                <Route
+                    path="/recordsearch"
+                    render={() => <RecordSearch theme={classes} />}
+                />
+                <Route
+                    path="/findpeople"
+                    render={() => <FindPeople theme={classes} />}
+                />
             </Container>
         </BrowserRouter>
     );

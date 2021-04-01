@@ -1,7 +1,7 @@
 import { socket } from "./socket";
 import { Paper, makeStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 //2
@@ -30,6 +30,7 @@ export default function UserChat({ id }) {
     const privateMessage = useSelector(
         (state) => state.private && state.private
     );
+    const [loaded, setLoaded] = useState(false);
 
     const keyCheck = (e) => {
         if (e.key === "Enter") {
@@ -43,13 +44,18 @@ export default function UserChat({ id }) {
     };
 
     useEffect(() => {
+        if (id && !loaded) {
+            socket.emit("get recent private messages", {
+                id: id,
+            });
+            setLoaded(true);
+        }
         const newScrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
         elemRef.current.scrollTop = newScrollTop;
-    }, [privateMessage]);
+    }, [privateMessage, id]);
 
     const classes = useStyles();
-    // const elemRef = useRef();
 
     return (
         <div>
@@ -57,8 +63,9 @@ export default function UserChat({ id }) {
                 {privateMessage &&
                     privateMessage.map((message, index) => (
                         <div key={index}>
-                            <h1>{message.message}</h1>
-                            <p>{message.first}</p>
+                            <p>
+                                {message.first} says: {message.message}
+                            </p>
                         </div>
                     ))}
                 <TextField onKeyDown={keyCheck} />
