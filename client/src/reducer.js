@@ -11,6 +11,7 @@ const ACTIONS = {
     SELECTED_RECORD: "record selected",
     NEW_PRIVATE_MESSAGE: "private message",
     RECENT_PRIVATES: "recent privates",
+    FAVOURITE_RECORDS: "favourite records",
 };
 
 export function Reducer(state = { private: [{}] }, action) {
@@ -76,13 +77,18 @@ export function Reducer(state = { private: [{}] }, action) {
         state = {
             ...state,
             selectedRecord: action.recordSelection,
+            cover_image: action.cover_image,
         };
     } else if (action.type == ACTIONS.NEW_PRIVATE_MESSAGE) {
         state = {
             ...state,
             private: action.message.reverse(),
         };
+    } else if (action.type == ACTIONS.FAVOURITE_RECORDS) {
+        state = {
+            ...state,
+            favouriteRecords: action.records,
+        };
     }
-
     return state;
 }

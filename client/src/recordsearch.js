@@ -43,11 +43,11 @@ export default function RecordSearch() {
         }
     };
 
-    const handleClick = (artist, master) => {
+    const handleClick = (artist, master, image) => {
         if (selectState == "release") {
-            dispatch(getSelection(master));
+            dispatch(getSelection(master, image));
         } else {
-            dispatch(getSelection(artist));
+            dispatch(getSelection(artist, image));
             console.log("state", selectState);
         }
     };
@@ -73,7 +73,8 @@ export default function RecordSearch() {
                                 onClick={() => {
                                     handleClick(
                                         record.resource_url,
-                                        record.master_url
+                                        record.master_url,
+                                        record.cover_image
                                     );
                                 }}
                             >

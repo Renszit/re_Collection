@@ -3,6 +3,7 @@ import BioEditor from "./bioEditor";
 import { Avatar, Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Friends from "./friends";
+import FavouriteRecords from "./favouriteRecords";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +36,7 @@ export default function Profile({ first, url, bio, setUser, toggle, theme }) {
                 <Typography variant="h4" component="h1">
                     Welcome {first}!
                 </Typography>
+
                 <Avatar
                     alt={first}
                     onClick={toggle}
@@ -47,6 +49,9 @@ export default function Profile({ first, url, bio, setUser, toggle, theme }) {
                     bio={bio}
                     setUser={({ bio: arg }) => setUser({ bio: arg })}
                 />
+            </Paper>
+            <Paper className={classes.paper}>
+                <FavouriteRecords />
             </Paper>
             <Paper className={classes.paper}>
                 <Friends theme={theme} />

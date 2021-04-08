@@ -172,11 +172,17 @@ module.exports.getPrivateMessages = (sender_id, recipient_id) => {
     return db.query(q, params);
 };
 
-// const q = `(SELECT chatters.sender_id, chatters.message, chatters.created_at, users.url, users.first, users.last 
+module.exports.getFavRecs = (userid) => {
+    const q = "SELECT * FROM favrecords WHERE userId = ($1)";
+    const params = [userid];
+    return db.query(q, params);
+};
+
+// const q = `(SELECT chatters.sender_id, chatters.message, chatters.created_at, users.url, users.first, users.last
 //     FROM chatters
-//     JOIN users 
+//     JOIN users
 //     ON chatters.sender_id = users.id
-//     LIMIT 10) 
+//     LIMIT 10)
 //     ORDER BY chatters.created_at DESC
 //     `;
 // WHERE (userchat.sender_id = $1 AND userchat.recipient_id = $2) OR (userchat.recipient_id = $1 AND userchat.sender_id = $2)

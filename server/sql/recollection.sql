@@ -43,6 +43,17 @@ CREATE TABLE userchat(
   message VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS favrecords;
+CREATE TABLE favrecords(
+  id SERIAL PRIMARY KEY,
+  record_id INT NOT NULL,
+  userId INT REFERENCES users(id) NOT NULL,
+  image VARCHAR(255),
+  comment VARCHAR(255),
+  type VARCHAR(255)
+);
+
+
 INSERT INTO chatters (sender_id, message) VALUES (2, 'hello');
 INSERT INTO chatters (sender_id, message) VALUES (4, 'hi');
 INSERT INTO chatters (sender_id, message) VALUES (9, 'hola');

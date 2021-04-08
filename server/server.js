@@ -212,6 +212,19 @@ app.get("/friendships/:id", (req, res) => {
         });
 });
 
+app.get("/getFavouriteRecordsFromDB", (req, res) => {
+    db.getFavRecs(req.session.userId)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => console.log("error getting favourite records", err));
+});
+
+app.post("/favouriteAddition", (req, res) => {
+    console.log(req.body);
+    db.addNewFavourite(req.session.userId);
+});
+
 app.post("/addfriend", (req, res) => {
     const BUTTON_TEXT = {
         ACCEPT: "accept request",

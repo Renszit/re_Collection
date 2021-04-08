@@ -6,8 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
     image: {
-        width: 300
-        
+        width: 300,
+    },
+    title: {
+        textAlign: "right",
     },
 }));
 
@@ -37,7 +39,7 @@ export default function Friends({ theme }) {
 
     return (
         <div>
-            <h1>friends</h1>
+            {friends[0] && <h1 className={classes.title}>friends</h1>}
             {friends.map((friend, index) => (
                 <div key={index}>
                     <h1>{friend.first}</h1>
@@ -53,7 +55,7 @@ export default function Friends({ theme }) {
                 </div>
             ))}
 
-            <h1>wannabes</h1>
+            {wannabe[0] && <h1 className={classes.title}>Requests</h1>}
             {wannabe.map((friend, index) => (
                 <div key={index}>
                     <h1>

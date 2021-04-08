@@ -13,6 +13,7 @@ const ACTIONS = {
     SELECTED_RECORD: "record selected",
     NEW_PRIVATE_MESSAGE: "private message",
     RECENT_PRIVATES: "recent privates",
+    FAVOURITE_RECORDS: "favourite records",
 };
 
 export async function getWannabes() {
@@ -86,12 +87,13 @@ export async function getRecord(record, type) {
     };
 }
 
-export async function getSelection(resource_url) {
+export async function getSelection(resource_url, imageurl) {
     const { data } = await axios.get(resource_url);
     console.log("get selection", data);
     return {
         type: ACTIONS.SELECTED_RECORD,
         recordSelection: data,
+        cover_image: imageurl,
     };
 }
 
@@ -99,5 +101,13 @@ export async function newPrivateMessage(message) {
     return {
         type: ACTIONS.NEW_PRIVATE_MESSAGE,
         message: message,
+    };
+}
+
+export async function getFavouriteRecords() {
+    const { data } = await axios.get("/getFavouriteRecordsFromDB");
+    return {
+        type: ACTIONS.FAVOURITE_RECORDS,
+        records: data,
     };
 }
