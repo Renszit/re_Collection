@@ -77,7 +77,7 @@ export default function BioEditor({ bio, setUser, theme }) {
                     variant="outlined"
                     color="default"
                 >
-                    Send
+                    send
                 </Button>
             )}
         </div>
