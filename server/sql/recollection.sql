@@ -48,7 +48,7 @@ CREATE TABLE favrecords(
   id SERIAL PRIMARY KEY,
   record_id INT NOT NULL,
   userId INT REFERENCES users(id) NOT NULL,
-  image VARCHAR(255),
+  image VARCHAR,
   comment VARCHAR(255),
   type VARCHAR(255)
 );
@@ -63,7 +63,7 @@ INSERT INTO chatters (sender_id, message) VALUES (12, 'chejamapelle');
 
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,23,TRUE);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,21,TRUE);
-INSERT INTO friendships ( sender_id, recipient_id, accepted) VALUES (5,19,TRUE);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,19,TRUE);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5,100,TRUE);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (2,5,FALSE);
 

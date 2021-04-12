@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UserSelection() {
     const classes = useStyles();
     const [favourite, setFavourite] = useState(false);
+    const [previouslySaved, setPreviouslySaved] = useState(false);
     const [comment, setComment] = useState();
     const result = useSelector(
         (state) => state.selectedRecord && state.selectedRecord
@@ -40,7 +41,10 @@ export default function UserSelection() {
                 image: coverImage,
                 type: result.type,
             })
-            .then((res) => console.log(res))
+            .then(() => {
+                setFavourite(false);
+                setPreviouslySaved(true);
+            })
             .catch((err) => {
                 console.log("error in posting comment", err);
             });
@@ -66,7 +70,7 @@ export default function UserSelection() {
                         {result.artists && <p>{result.artists[0].name}</p>}
                     </Paper>
                     <div>
-                        {!favourite && (
+                        {!favourite && !previouslySaved && (
                             <Button
                                 onClick={() => setFavourite(!favourite)}
                                 variant="text"
@@ -75,13 +79,13 @@ export default function UserSelection() {
                                 Favourite
                             </Button>
                         )}
-                        {favourite && (
+                        {favourite && !previouslySaved && (
                             <TextField
                                 label="add a comment"
                                 onChange={(e) => setComment(e.target.value)}
                             />
                         )}
-                        {favourite && (
+                        {favourite && !previouslySaved && (
                             <Button
                                 onClick={() => handleClick()}
                                 variant="text"
@@ -89,6 +93,9 @@ export default function UserSelection() {
                             >
                                 Add favourite
                             </Button>
+                        )}
+                        {previouslySaved && (
+                            <h1>You previously saved this as a favourite!</h1>
                         )}
                     </div>
                 </div>

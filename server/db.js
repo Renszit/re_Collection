@@ -178,11 +178,15 @@ module.exports.getFavRecs = (userid) => {
     return db.query(q, params);
 };
 
-// const q = `(SELECT chatters.sender_id, chatters.message, chatters.created_at, users.url, users.first, users.last
-//     FROM chatters
-//     JOIN users
-//     ON chatters.sender_id = users.id
-//     LIMIT 10)
-//     ORDER BY chatters.created_at DESC
-//     `;
-// WHERE (userchat.sender_id = $1 AND userchat.recipient_id = $2) OR (userchat.recipient_id = $1 AND userchat.sender_id = $2)
+module.exports.addNewFavourite = (
+    userId,
+    comment,
+    recordId,
+    imageurl,
+    type
+) => {
+    const q = `INSERT INTO favrecords (record_id, userId, image, comment, type)
+    VALUES ($1, $2,$3,$4,$5)`;
+    const params = [recordId, userId, imageurl, comment, type];
+    return db.query(q, params);
+};

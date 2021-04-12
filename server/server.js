@@ -222,7 +222,14 @@ app.get("/getFavouriteRecordsFromDB", (req, res) => {
 
 app.post("/favouriteAddition", (req, res) => {
     console.log(req.body);
-    db.addNewFavourite(req.session.userId);
+    const { comment, recordId, image, type } = req.body;
+    db.addNewFavourite(req.session.userId, comment, recordId, image, type)
+        .then(() => {
+            res.json({ success: true });
+        })
+        .catch((err) =>
+            console.error("something went wrong posting to fav", err)
+        );
 });
 
 app.post("/addfriend", (req, res) => {
