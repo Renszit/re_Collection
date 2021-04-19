@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getFavouriteRecords } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Avatar } from "@material-ui/core";
+
 export default function FavouriteRecords() {
     const dispatch = useDispatch();
     const favRecords = useSelector(
@@ -18,8 +18,8 @@ export default function FavouriteRecords() {
             {favRecords &&
                 favRecords.map((fav, index) => (
                     <div key={index}>
-                        <Avatar src={fav.image}></Avatar>
-                        <p>{fav.comment}</p>
+                        <img src={fav.image}></img>
+                        <p>Your comment: {fav.comment}</p>
                     </div>
                 ))}
         </div>
