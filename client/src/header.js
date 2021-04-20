@@ -3,12 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
     rotate: {
-        width: 100,
         transition: "ease 3s",
     },
 }));
 
-export default function Header() {
+export default function Header({ width }) {
     const classes = useStyles();
     const [rotation, setRotation] = useState(0);
 
@@ -18,7 +17,7 @@ export default function Header() {
                 onClick={() => setRotation(rotation + 360)}
                 className={classes.rotate}
                 style={{ transform: `rotate(${rotation}deg)` }}
-                width={80}
+                width={width}
                 src="/img_474399.png"
             ></img>
         </div>

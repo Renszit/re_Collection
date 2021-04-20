@@ -60,7 +60,7 @@ export default function Welcome() {
                 justify="center"
                 style={{ minHeight: "100vh" }}
             >
-                <Header />
+                <Header width={80} />
                 <Typography variant="h6" color="initial">
                     recollection.
                 </Typography>
