@@ -4,14 +4,17 @@ import { Avatar, Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Friends from "./friends";
 import FavouriteRecords from "./favouriteRecords";
-import Container from "@material-ui/core/Container";
+
+// import Container from "@material-ui/core/Container";
+
 export default function Profile({ first, url, bio, setUser, toggle, theme }) {
     const classes = useStyles();
 
     return (
         <div>
             <Paper className={classes.paper} elevation={1}>
-                <Avatar elevation={2}
+                <Avatar
+                    elevation={2}
                     alt={first}
                     onClick={toggle}
                     className={classes.avatar}
@@ -52,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         padding: 20,
         display: "flex",
-        // position: "relative",
         flexDirection: "column",
         marginBottom: 10,
     },

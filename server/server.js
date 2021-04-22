@@ -116,7 +116,6 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
 });
 
 app.get("/getwannabes", (req, res) => {
-    console.log("works");
     db.getWannabes(req.session.userId)
         .then(({ rows }) => {
             console.log(rows);
