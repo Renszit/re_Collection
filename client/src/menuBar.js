@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-// import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
 import Header from "./header";
 import axios from "./axios";
 
@@ -14,6 +14,8 @@ export default function MenuBar({ first }) {
             .then(() => location.replace("/welcome"))
             .catch((err) => console.log("err", err));
     };
+    
+    let activeLink = { color: "#A7B0CA" };
 
     return (
         <div className={(classes.flex, classes.header)}>
@@ -23,27 +25,46 @@ export default function MenuBar({ first }) {
                     style={{ alignSelf: "flex-start" }}
                 >
                     <Header width={50} src={"/vinyl_blue.png"} />
-                    <Link to="/" className={classes.text}>
+                    <NavLink
+                        to="/"
+                        exact
+                        className={classes.text}
+                        activeStyle={activeLink}
+                    >
                         Hi {first}, welcome to recollection
-                    </Link>
+                    </NavLink>
                 </div>
                 <div className={classes.flex} style={{ alignSelf: "flex-end" }}>
-                    <Link className={classes.text} to="/recordsearch">
+                    <NavLink
+                        activeStyle={activeLink}
+                        className={classes.text}
+                        to="/recordsearch"
+                    >
                         Explore
-                    </Link>
-                    <Link className={classes.text} to="/findpeople">
+                    </NavLink>
+                    <NavLink
+                        activeStyle={activeLink}
+                        className={classes.text}
+                        to="/findpeople"
+                    >
                         Community
-                    </Link>
-                    <Link className={classes.text} to="/chatters">
+                    </NavLink>
+                    <NavLink
+                        activeStyle={activeLink}
+                        className={classes.text}
+                        to="/chatters"
+                    >
                         Chat
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
+                        // activeStyle={{ color: "#B0D0D3" }}
                         to={"/welcome"}
                         className={classes.text}
+                        style={{ marginLeft: "2em" }}
                         onClick={() => logout()}
                     >
                         Logout
-                    </Link>
+                    </NavLink>
                 </div>
             </div>
         </div>
@@ -63,6 +84,9 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "row",
     },
     header: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         height: "3em",
         width: "100%",
         marginBottom: 10,
@@ -72,12 +96,18 @@ const useStyles = makeStyles((theme) => ({
     menu: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-around",
+        margin: 10,
+        padding: 10,
+        justifyContent: "space-between",
+        width: "max(1240px)",
     },
     text: {
         margin: 10,
         color: "#F2F4F3",
         textDecoration: "none",
+    },
+    activeText: {
+        color: "red",
     },
     link: {
         textDecoration: "none",

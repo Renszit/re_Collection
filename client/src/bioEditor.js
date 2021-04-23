@@ -39,7 +39,11 @@ export default function BioEditor({ bio, setUser, theme }) {
 
     return (
         <div>
-            <Typography className={theme.title} variant="h5" color="initial">
+            <Typography
+                className={theme.title}
+                variant="h5"
+                style={{ color: "#8F95D3", fontFamily: "Quicksand" }}
+            >
                 {bio || "add a bio here"}
             </Typography>
 
