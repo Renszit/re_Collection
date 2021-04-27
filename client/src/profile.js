@@ -21,39 +21,52 @@ export default function Profile({
 
     return (
         <div>
-            <Paper
-                className={classes.paper}
-                style={{ minHeight: 200, backgroundColor: "#E4DFDA" }}
-                elevation={2}
-            >
-                <div>
-                    <Avatar
-                        elevation={2}
-                        alt={first}
-                        onClick={toggle}
-                        className={classes.avatar}
-                        component="div"
-                        src={url || "./missing.jpg"}
-                    ></Avatar>
-                    <BioEditor
-                        className={classes.editor}
-                        theme={theme}
-                        bio={bio}
-                        setUser={({ bio: arg }) => setUser({ bio: arg })}
-                    />
-                </div>
-                <Typography
-                    variant="h1"
-                    style={{ color: "#8F95D3", fontFamily: "Quicksand" }}
+            <div className={classes.topContainer}>
+                <Paper
+                    className={classes.paper}
+                    style={{ backgroundColor: "#E4DFDA" }}
+                    elevation={2}
                 >
-                    {first} {last}
-                </Typography>
-            </Paper>
+                    <Typography
+                        variant="h1"
+                        style={{ color: "#8F95D3", fontFamily: "Quicksand" }}
+                    >
+                        {first} {last}
+                    </Typography>
+                    <div>
+                        <Avatar
+                            elevation={2}
+                            alt={first}
+                            onClick={toggle}
+                            className={classes.avatar}
+                            component="div"
+                            src={url || "./missing.jpg"}
+                        ></Avatar>
+                        <BioEditor
+                            className={classes.editor}
+                            theme={theme}
+                            bio={bio}
+                            setUser={({ bio: arg }) => setUser({ bio: arg })}
+                        />
+                    </div>
+                </Paper>
+                <Paper
+                    className={classes.paper}
+                    style={{ overflow: "scroll", backgroundColor: "#E4DFDA",  }}
+                    elevation={2}
+                >
+                    <Typography
+                        variant="h4"
+                        style={{ color: "#8F95D3", fontFamily: "Quicksand"}}
+                    >
+                        friends
+                    </Typography>
+
+                    <Friends theme={theme} />
+                </Paper>
+            </div>
             <Paper className={classes.paper}>
                 <FavouriteRecords />
-            </Paper>
-            <Paper className={classes.paper}>
-                <Friends theme={theme} />
             </Paper>
         </div>
     );
@@ -70,14 +83,22 @@ const useStyles = makeStyles((theme) => ({
         width: 500,
         height: "min(300px)",
         margin: 10,
-        borderRadius: "55% 45% 41% 59% / 36% 49% 51% 64% ",
+        borderRadius: 10,
+        cursor: "pointer",
         boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;",
     },
     paper: {
-        flexWrap: "wrap-reverse",
+        flexWrap: "wrap",
         padding: 20,
         display: "flex",
-        justifyContent: "space-around",
-        marginBottom: 10,
+        justifyContent: "space-between",
+        margin: 10,
+    },
+    topContainer: {
+        display: "flex",
+        justifyContent: "space-between",
+        // margin: 20,
+        height: "max(50vh)",
+        width: "100%",
     },
 }));

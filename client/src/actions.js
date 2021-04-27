@@ -111,3 +111,7 @@ export async function getFavouriteRecords() {
         records: data,
     };
 }
+
+export async function getSpecificRecordFromApi() {
+    const {data} = await axios.get("")
+}

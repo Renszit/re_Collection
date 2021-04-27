@@ -59,7 +59,12 @@ const useStyles = makeStyles({
     },
     image: {
         width: 200,
-        borderRadius: "50% 50% 50% 50% / 73% 48% 52% 27% ",
+        borderRadius: "75% 25% 77% 23% / 51% 42% 58% 49% ",
+        "&:hover": {
+            borderRadius: "51% 49% 64% 36% / 51% 67% 33% 49%",
+            cursor: "pointer",
+        },
+        transition: "ease 0.3s",
         height: 200,
         objectFit: "cover",
         boxShadow:
