@@ -1,18 +1,10 @@
 import axios from "./axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles({
-    root: {
-        maxWidth: 345,
-    },
-
-
-});
 
 export default function FindPeople() {
     const classes = useStyles();
@@ -72,3 +64,9 @@ export default function FindPeople() {
         </div>
     );
 }
+
+const useStyles = makeStyles({
+    root: {
+        maxWidth: 345,
+    },
+});

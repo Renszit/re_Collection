@@ -1,4 +1,5 @@
 // import ProfilePic from "./profilePic";
+
 import BioEditor from "./bioEditor";
 import { Avatar, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -69,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
         width: 500,
         height: "min(300px)",
         margin: 10,
-        borderRadius: 15,
+        borderRadius: "55% 45% 41% 59% / 36% 49% 51% 64% ",
+        boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;",
     },
     paper: {
         flexWrap: "wrap-reverse",
