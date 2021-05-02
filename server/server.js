@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
+
 const compression = require("compression");
 const path = require("path");
+
 const cookieSession = require("cookie-session");
+
 const csurf = require("csurf");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
