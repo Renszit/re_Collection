@@ -3,30 +3,17 @@ import { HashRouter, Route } from "react-router-dom";
 import Login from "./login";
 import ResetPassword from "./resetPassword";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Header from "./header";
-import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        padding: theme.spacing(1),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
-    },
-    button: {
-        margin: 20,
-    },
-    title: {
-        margin: 10,
-        color: "#403D58",
-    },
-}));
+export default function Welcome() {
+    const classes = useStyles();
 
-function GridItem({ classes }) {
     return (
-        <HashRouter>
-            <Grid item xs={12} sm={8} md={6}>
+        <div className={classes.flexColumn}>
+            <Header width={80} src={"/vinyl_black.png"} />
+            <h1>recollection.</h1>
+            <HashRouter>
                 <Paper className={classes.paper}>
                     <Route
                         exact
@@ -42,30 +29,35 @@ function GridItem({ classes }) {
                         render={() => <ResetPassword theme={classes} />}
                     />
                 </Paper>
-            </Grid>
-        </HashRouter>
-    );
-}
-
-export default function Welcome() {
-    const classes = useStyles();
-
-    return (
-        <div>
-            <Grid
-                container
-                spacing={1}
-                direction="column"
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: "100vh" }}
-            >
-                <Header width={80} src={"/vinyl_black.png"} />
-                <Typography variant="h6" color="initial">
-                    recollection.
-                </Typography>
-                <GridItem classes={classes} />
-            </Grid>
+            </HashRouter>
         </div>
     );
 }
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        padding: theme.spacing(1),
+        textAlign: "center",
+        margin: 20,
+        height: "100%",
+        color: theme.palette.text.secondary,
+    },
+    flexColumn: {
+        margin: 20,
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    button: {
+        margin: 20,
+    },
+    form: {
+        margin: 20,
+    },
+    title: {
+        margin: 10,
+        color: "#403D58",
+    },
+}));

@@ -3,20 +3,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
+
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
             margin: theme.spacing(1),
             width: "25ch",
         },
-    },
-    form: {
-        display: "flex",
-        flexDirection: "column",
-        width: 300,
-        margin: 20,
     },
     input: {
         margin: 10,
@@ -59,8 +56,8 @@ export default function Login({ theme }) {
 
     return (
         <div>
-            <h1>Login</h1>
-            <div className={classes.form}>
+            <h4>Login</h4>
+            <div className={theme.flexColumn}>
                 <TextField
                     className={classes.input}
                     id="standard-basic"
@@ -82,15 +79,14 @@ export default function Login({ theme }) {
                         something went wrong
                     </Typography>
                 )}
-                <Button
-                    size="small"
+                <AwesomeButton
                     className={theme.button}
-                    variant="outlined"
-                    color="primary"
-                    onClick={(e) => handleClick(e)}
+                    size="medium"
+                    type="primary"
+                    action={(e) => handleClick(e)}
                 >
                     submit
-                </Button>
+                </AwesomeButton>
             </div>
             <div className={classes.linkContainer}>
                 <Link className={classes.link} to="/">

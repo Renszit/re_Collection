@@ -3,32 +3,10 @@ import { useState } from "react";
 import axios from "./axios";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
-const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
-    },
-    form: {
-        display: "flex",
-        flexDirection: "column",
-        width: 300,
-        margin: 20,
-    },
-    input: {
-        margin: 10,
-    },
-    button: {
-        margin: 20,
-    },
-    link: {
-        fontSize: 10,
-        textDecoration: "none",
-    },
-}));
+
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 
 export default function ResetPassword({ theme }) {
     const classes = useStyles();
@@ -77,10 +55,9 @@ export default function ResetPassword({ theme }) {
 
     return (
         <div>
-            <h1>Reset Password</h1>
-
+            <h4>It happens.</h4>
             {state == 1 && (
-                <div className={classes.form}>
+                <div className={theme.flexColumn}>
                     <TextField
                         className={classes.input}
                         id="standard-basic"
@@ -94,15 +71,15 @@ export default function ResetPassword({ theme }) {
                             something went wrong
                         </Typography>
                     )}
-                    <Button
-                        size="small"
+
+                    <AwesomeButton
                         className={theme.button}
-                        variant="outlined"
-                        color="primary"
-                        onClick={(e) => handleClick(e)}
+                        size="medium"
+                        type="primary"
+                        action={(e) => handleClick(e)}
                     >
-                        Send Reset Email
-                    </Button>
+                        send code
+                    </AwesomeButton>
                     <Link to="/login" className={classes.link}>
                         go to login
                     </Link>
@@ -125,15 +102,15 @@ export default function ResetPassword({ theme }) {
                         type="password"
                         onChange={(e) => handleChange(e)}
                     />
-                    <Button
-                        size="small"
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        onClick={(e) => handleClick(e)}
+
+                    <AwesomeButton
+                        className={theme.button}
+                        size="medium"
+                        type="primary"
+                        action={(e) => handleClick(e)}
                     >
-                        Change password
-                    </Button>
+                        change password
+                    </AwesomeButton>
                 </div>
             )}
             {state == 3 && (
@@ -147,3 +124,19 @@ export default function ResetPassword({ theme }) {
         </div>
     );
 }
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        "& > *": {
+            margin: theme.spacing(1),
+            width: "25ch",
+        },
+    },
+    input: {
+        margin: 10,
+    },
+    link: {
+        fontSize: 10,
+        textDecoration: "none",
+    },
+}));

@@ -3,8 +3,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+
 import Typography from "@material-ui/core/Typography";
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -12,12 +14,6 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: "25ch",
         },
-    },
-    form: {
-        display: "flex",
-        flexDirection: "column",
-        width: 300,
-        margin: 20,
     },
     input: {
         margin: 10,
@@ -56,10 +52,8 @@ export default function Registration({ theme }) {
 
     return (
         <div>
-            <Typography className={theme.title} variant="h4">
-                Registration
-            </Typography>
-            <div className={classes.form}>
+            <h4>Registration</h4>
+            <div className={theme.flexColumn} style={{ margin: 20 }}>
                 <TextField
                     className={classes.input}
                     label="first"
@@ -91,15 +85,14 @@ export default function Registration({ theme }) {
                         something went wrong
                     </Typography>
                 )}
-                <Button
-                    size="small"
+                <AwesomeButton
                     className={theme.button}
-                    variant="outlined"
-                    color="primary"
-                    onClick={(e) => handleClick(e)}
+                    size="medium"
+                    type="primary"
+                    action={(e) => handleClick(e)}
                 >
                     submit
-                </Button>
+                </AwesomeButton>
             </div>
             <Link to="/login" className={classes.link}>
                 Click here to log in!
