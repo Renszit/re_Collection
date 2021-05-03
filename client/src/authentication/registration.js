@@ -1,10 +1,10 @@
-import axios from "./axios";
+import axios from "../axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { Typography } from "@material-ui/core";
 
+import Typography from "@material-ui/core/Typography";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 
@@ -18,30 +18,26 @@ const useStyles = makeStyles((theme) => ({
     input: {
         margin: 10,
     },
-    linkContainer: {
-        display: "flex",
-        flexDirection: "column",
-    },
     link: {
         fontSize: 10,
         textDecoration: "none",
     },
 }));
 
-export default function Login({ theme }) {
+export default function Registration({ theme }) {
     const classes = useStyles();
+
     const [form, setForm] = useState({});
     const [error, setError] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-        console.log(form);
+        // console.log(form);
     };
 
     const handleClick = () => {
-        console.log(form);
         axios
-            .post("/login", form)
+            .post("/register", form)
             .then((res) => {
                 if (!res.data.error) {
                     location.replace("/");
@@ -56,11 +52,22 @@ export default function Login({ theme }) {
 
     return (
         <div>
-            <h4>Login</h4>
-            <div className={theme.flexColumn}>
+            <h4>Registration</h4>
+            <div className={theme.flexColumn} style={{ margin: 20 }}>
                 <TextField
                     className={classes.input}
-                    id="standard-basic"
+                    label="first"
+                    name="first"
+                    onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                    className={classes.input}
+                    label="last"
+                    name="last"
+                    onChange={(e) => handleChange(e)}
+                />
+                <TextField
+                    className={classes.input}
                     label="email"
                     name="email"
                     type="email"
@@ -68,7 +75,6 @@ export default function Login({ theme }) {
                 />
                 <TextField
                     className={classes.input}
-                    id="standard-basic"
                     label="password"
                     name="password"
                     type="password"
@@ -88,14 +94,9 @@ export default function Login({ theme }) {
                     submit
                 </AwesomeButton>
             </div>
-            <div className={classes.linkContainer}>
-                <Link className={classes.link} to="/">
-                    Click here to register
-                </Link>
-                <Link className={classes.link} to="/reset-password">
-                    Forgot your password?
-                </Link>
-            </div>
+            <Link to="/login" className={classes.link}>
+                Click here to log in!
+            </Link>
         </div>
     );
 }
