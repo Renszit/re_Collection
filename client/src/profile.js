@@ -52,12 +52,12 @@ export default function Profile({
                 </Paper>
                 <Paper
                     className={classes.paper}
-                    style={{ overflow: "scroll", backgroundColor: "#E4DFDA",  }}
+                    style={{ overflow: "scroll", backgroundColor: "#E4DFDA" }}
                     elevation={2}
                 >
                     <Typography
                         variant="h4"
-                        style={{ color: "#8F95D3", fontFamily: "Quicksand"}}
+                        style={{ color: "#8F95D3", fontFamily: "Quicksand" }}
                     >
                         friends
                     </Typography>
@@ -97,8 +97,6 @@ const useStyles = makeStyles((theme) => ({
     topContainer: {
         display: "flex",
         justifyContent: "space-between",
-        // margin: 20,
-        height: "max(50vh)",
         width: "100%",
     },
 }));

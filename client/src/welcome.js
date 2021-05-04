@@ -11,8 +11,8 @@ export default function Welcome() {
     const classes = useStyles();
 
     return (
-        <div className={classes.flex}>
-            <div className={classes.flexColumn}>
+        <div className={classes.grid}>
+            <div className={classes.itemOne}>
                 <HashRouter>
                     <Paper className={classes.paper}>
                         <Route
@@ -31,12 +31,15 @@ export default function Welcome() {
                     </Paper>
                 </HashRouter>
             </div>
-            <div className={classes.flexColumn}>
+            <div className={classes.itemTwo}>
                 <div className={classes.flex}>
                     <h1 style={{ marginRight: 20 }}>recollection.</h1>
                     <Header width={80} src={"/vinyl_black.png"} />
+                    <img
+                        className={classes.image}
+                        src="./placeholder.jpeg"
+                    ></img>
                 </div>
-                <img className={classes.image} src="./placeholder.jpeg"></img>
             </div>
         </div>
     );
@@ -49,6 +52,22 @@ const useStyles = makeStyles((theme) => ({
         margin: 20,
         height: "100%",
         color: theme.palette.text.secondary,
+    },
+    grid: {
+        display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        flexWrap: "wrap-reverse",
+        margin: 20,
+    },
+    itemOne: {
+        justifySelf: "center",
+        alignSelf: "center",
+    },
+    itemTwo: {
+        justifySelf: "center",
+        maxWidth: 700,
+        alignSelf: "center",
     },
     flex: {
         display: "flex",
@@ -69,9 +88,11 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         margin: 20,
+        maxWidth: "100%",
         borderRadius: "51% 49% 65% 35% / 53% 45% 55% 47% ",
-        height: "50vh",
+        height: "auto",
     },
+
     form: {
         margin: 20,
     },
