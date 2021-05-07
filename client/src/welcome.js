@@ -1,7 +1,7 @@
 import Registration from "./authentication/registration";
 import Login from "./authentication/login";
 import ResetPassword from "./authentication/resetPassword";
-import Header from "./header";
+import Header from "./logo";
 
 import { HashRouter, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,8 +12,20 @@ export default function Welcome() {
 
     return (
         <div className={classes.grid}>
+            <div className={classes.itemTwo}>
+                <div className={classes.flex}>
+                    <img
+                        className={classes.image}
+                        src="./placeholder.jpeg"
+                    ></img>
+                </div>
+            </div>
             <div className={classes.itemOne}>
                 <HashRouter>
+                    <div style={{ margin: 20 }} className={classes.flex}>
+                        <Header width={90} src={"/vinyl_black.png"} />
+                        <h1 style={{ marginLeft: 20 }}>recollection.</h1>
+                    </div>
                     <Paper className={classes.paper}>
                         <Route
                             exact
@@ -31,26 +43,16 @@ export default function Welcome() {
                     </Paper>
                 </HashRouter>
             </div>
-            <div className={classes.itemTwo}>
-                <div className={classes.flex}>
-                    <h1 style={{ marginRight: 20 }}>recollection.</h1>
-                    <Header width={80} src={"/vinyl_black.png"} />
-                    <img
-                        className={classes.image}
-                        src="./placeholder.jpeg"
-                    ></img>
-                </div>
-            </div>
         </div>
     );
 }
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        padding: theme.spacing(1),
+        padding: theme.spacing(3),
         textAlign: "center",
-        margin: 20,
-        height: "100%",
+        height: "auto%",
+        maxWidth: "100%",
         color: theme.palette.text.secondary,
     },
     grid: {
@@ -59,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         flexWrap: "wrap-reverse",
         margin: 20,
+        padding: 20,
     },
     itemOne: {
         justifySelf: "center",
@@ -91,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "100%",
         borderRadius: "51% 49% 65% 35% / 53% 45% 55% 47% ",
         height: "auto",
+        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
 
     form: {

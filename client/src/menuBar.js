@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 // import { useState } from "react";
-import Header from "./header";
+import Header from "./logo";
 import axios from "./axios";
 
 export default function MenuBar({ first }) {
